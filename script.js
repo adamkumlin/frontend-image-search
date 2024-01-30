@@ -5,11 +5,11 @@ const apikey = "42111173-a877c127734af95d5350e4bd2";
 async function apiCall(query) {
     const baseUrl = "https://pixabay.com/api/?key=" + apikey;
     const urlWithQuery = baseUrl + query;
-    const result = await fetch(urlWithQuery); 
+    const result = await fetch(urlWithQuery);
     const json = result.json;
 
     return json;
-} 
+}
 
 // build query, meant to be passed as parameter to apiCall() 
 function buildQuery(

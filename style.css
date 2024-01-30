@@ -14,6 +14,7 @@ h1 {
     font-weight: bold;
     font-size: 500%;
 }
+
 #form {
     display: flex;
     border: 2px solid blue;
@@ -21,7 +22,9 @@ h1 {
     flex-direction: column;
 }
 
-label, input, select {
+label,
+input,
+select {
     display: block;
     font-family: Poppins;
 }
@@ -31,7 +34,8 @@ label {
     margin-bottom: 1rem;
 }
 
-input, select {
+input,
+select {
     width: 7rem;
 }
 
