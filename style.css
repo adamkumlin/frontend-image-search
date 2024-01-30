@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: lightcoral;
+}
+
+h1 {
+    font-family: Courgette;
+    text-align: center;
+    font-weight: bold;
+    font-size: 500%;
+}
+#form {
+    display: flex;
+    border: 2px solid blue;
+    align-items: center;
+    flex-direction: column;
+}
+
+label, input, select {
+    display: block;
+    font-family: Poppins;
+}
+
+label {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+input, select {
+    width: 7rem;
+}
+
+input[type="submit"] {
+    width: 4rem;
+}
