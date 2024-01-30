@@ -1,12 +1,13 @@
 // api key 
 const apikey = "42111173-a877c127734af95d5350e4bd2";
 
-// api call 
-async function apiCall(query) {
-    const baseUrl = "https://pixabay.com/api/?key=" + apikey;
-    const urlWithQuery = baseUrl + query;
-    const result = await fetch(urlWithQuery);
-    const json = result.json;
+// api call, returns json 
+async function apiCallJSON(query) {
+    const url = "https://pixabay.com/api/?key=" +
+        apikey +
+        query;
+    const result = await fetch(url);
+    const json = await result.json();
 
     return json;
 }
@@ -30,14 +31,11 @@ function buildQuery(
         safesearch: "true"
     })
 
-    const urlWithQuery = "&" + urlSearchParams.toString();
-    return urlWithQuery;
+    const query = "&" + urlSearchParams.toString();
+    return query;
 }
 
-
-const form = document.getElementById("form");
-
-form.onsubmit = (e) => {
+function submitForm(e) {
     e.preventDefault();
 
     let searchString = document.getElementById("search").value;
@@ -45,13 +43,14 @@ form.onsubmit = (e) => {
 
     if (searchString != "") {
         // Build query
-    } else {
+        console.log(buildQuery(searchString));
+        console.log(apiCallJSON(buildQuery(searchString)));
+    }
+    else {
         alert("Fel: Sökfältet är tomt.")
         return;
     }
-    const query = `&q=${searchString}&colors=${color}&per_page=10`;
 }
 
-console.log(buildQuery());
-
-console.log("yo")
+const mainForm = document.getElementById("form");
+mainForm.addEventListener("submit", submitForm);
