@@ -82,7 +82,16 @@
       </select>
     </label>
 
-    <label for="resultsPerPage" id="resultsPerPageContainer">Antal resultat per sida<input type="number" id="resultsPerPage"></label>
+    <label for="resultsPerPage" id="resultsPerPageContainer">
+      Antal resultat per sida
+      <select id="resultsPerPage">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+    </label>
 
     <div id="orderContainer">
       <label for="popular">Populärast<input type="radio" id="popular" name="order" value="popular"></label>
