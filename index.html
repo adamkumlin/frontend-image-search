@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="sv">
 
+<!-- 
+  Assignment nr. 2 - Frontend
+  by:
+  = Adam Kumlin
+  = Simon Sörqvist
+-->
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,35 +22,93 @@
 <body>
   <h1>Bildsökmotor</h1>
 
-  <form id="form" onsubmit="">
-    <label for="search">Sök<input type="search" id="search" placeholder="Cats" /></label>
-    <label for="color">
+  <form id="form">
+    <label for="search" id="searchContainer">Sök<input type="search" id="search" placeholder="Cats" /></label>
+    <label for="color" id="colorContainer">
       Färg
       <select id="color">
-        <option value="grayscale">Grayscale</option>
-        <option value="transparent">Transparent</option>
-        <option value="red">Red</option>
+        <option value="undefined">Alla</option>
+        <option value="grayscale">Gråskala</option>
+        <option value="transparent">Transparant</option>
+        <option value="red">Rött</option>
         <option value="orange">Orange</option>
-        <option value="yellow">Yellow</option>
-        <option value="green">Green</option>
-        <option value="turquoise">Turquoise</option>
-        <option value="blue">Blue</option>
-        <option value="lilac">Lilac</option>
-        <option value="pink">Pink</option>
-        <option value="white">White</option>
-        <option value="gray">Gray</option>
-        <option value="black">Black</option>
-        <option value="brown">Brown</option>
+        <option value="yellow">Gult</option>
+        <option value="green">Grönt</option>
+        <option value="turquoise">Turkost</option>
+        <option value="blue">Blått</option>
+        <option value="lilac">Lila</option>
+        <option value="pink">Rosa</option>
+        <option value="white">Vitt</option>
+        <option value="gray">Grått</option>
+        <option value="black">Svart</option>
+        <option value="brown">Brunt</option>
       </select>
     </label>
 
-    <label for=""><input type="text"></label>
-    <label for=""><input type="text"></label>
-    <label for=""><input type="text"></label>
-    <label for=""><input type="text"></label>
+    <label for="category" id="categoryContainer">
+      Kategori
+      <select id="category">
+        <option value="undefined">Alla</option>
+        <option value="backgrounds">Bakgrunder</option>
+        <option value="fashion">Mode</option>
+        <option value="nature">Natur</option>
+        <option value="science">Vetenskap</option>
+        <option value="education">Utbildning</option>
+        <option value="feelings">Känslor</option>
+        <option value="health">Hälsa</option>
+        <option value="people">Människor</option>
+        <option value="religion">Religion</option>
+        <option value="places"> Platser</option>
+        <option value="animals">Djur</option>
+        <option value="industry">Industri</option>
+        <option value="computer">Dator</option>
+        <option value="food">Mat</option>
+        <option value="sports">Sport</option>
+        <option value="transportation">Transport</option>
+        <option value="travel">Resor</option>
+        <option value="buildings">Byggnader</option>
+        <option value="business">Affär</option>
+        <option value="music">Musik</option>
+      </select>
+    </label>
+
+    <label for="imageType" id="imageTypeContainer">
+      Bildtyp
+      <select id="imageType">
+        <option value="all">Alla</option>
+        <option value="photos">Foton</option>
+        <option value="illustrations">Illustrationer</option>
+        <option value="vectors">Vektorer</option>
+      </select>
+    </label>
+
+    <label for="resultsPerPage" id="resultsPerPageContainer">
+      Antal resultat per sida
+      <select id="resultsPerPage">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+    </label>
+
+    <div id="orderContainer">
+      <label for="popular">Populärast<input type="radio" id="popular" name="order" value="popular" checked></label>
+      <label for="latest">Senaste<input type="radio" id="latest" name="order" value="latest"></label>
+    </div>
+
 
     <input type="submit" value="Sök" />
   </form>
+
+  <main>
+    <!-- [PLACE PICTURE RESULTS HERE] -->
+  </main>
+
+  <footer>
+    <!-- [ADD FOOTING HERE, ©2024 Adam Kumlin & Simon Sörqvist ] -->
+  </footer>
 
   <script src="script.js"></script> <!-- script loads in here =====================-->
 </body>
