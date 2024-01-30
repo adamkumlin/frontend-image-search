@@ -42,6 +42,12 @@ mainForm.addEventListener("submit", submitForm);
 function submitForm(e) {
     e.preventDefault();
 
+    const image = document.querySelector("h1 img");
+    image.classList.add("animated");
+    // For the search animation, add class with name "animated" to the image in the h1
+
+    // TODO: remove class when displaying images, can be done later
+
     const searchText = document.getElementById("search").value;
     const color = document.getElementById("color").value;
     const category = document.getElementById("category").value;

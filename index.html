@@ -20,7 +20,8 @@
 </head>
 
 <body>
-  <h1>Bildsökmotor</h1>
+  <h1>Bildsökm<img src="/assets/shutter-icon.svg" alt="Camera shutter icon">tor</h1>
+  <!--I really like this idea, although we might want to think about doing this another way, right now the h1 reads "Bildsökmtor" which is bad accessibility wise-->
 
   <form id="form">
     <label for="search" id="searchContainer">Sök<input type="search" id="search" placeholder="Cats" /></label>
@@ -93,10 +94,13 @@
       </select>
     </label>
 
-    <div id="orderContainer">
-      <label for="popular">Populärast<input type="radio" id="popular" name="order" value="popular" checked></label>
-      <label for="latest">Senaste<input type="radio" id="latest" name="order" value="latest"></label>
-    </div>
+    <label for="order" id="orderContainer">
+      Sortera
+      <select id="order">
+        <option value="popular">Populärast</option>
+        <option value="latest">Senaste</option>
+      </select>
+    </label>
 
 
     <input type="submit" value="Sök" />
@@ -106,9 +110,11 @@
     <!-- [PLACE PICTURE RESULTS HERE] -->
   </main>
 
-  <footer>
-    <!-- [ADD FOOTING HERE, ©2024 Adam Kumlin & Simon Sörqvist ] -->
-  </footer>
+  <!--<footer>
+    <p>&copy; 2024 Simon Sörqvist & Adam Kumlin</p>
+  </footer>-->
+  <!--Not currently at the bottom of the page, will get fixed automatically when we add more elements, 
+  or we can use 'position: relative' although it is discouraged in the assignment description-->
 
   <script src="script.js"></script> <!-- script loads in here =====================-->
 </body>

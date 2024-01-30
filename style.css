@@ -15,14 +15,32 @@ h1 {
     font-size: 500%;
 }
 
+h1 img {
+    width: 50px;
+    height: auto;
+}
+
+h1 img.animated {
+    animation: spin 1s infinite forwards;
+    /* How fast do we want the spinning animation to be? */
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 #form {
     display: grid;
-    grid-template-areas: 
-                        ". a ."
-                        "b c d"
-                        "e . f"
-                        ". g .";
-    border: 2px solid blue;
+    grid-template-areas:
+        ". a ."
+        "b c d"
+        "e g f";
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 label,
@@ -30,6 +48,7 @@ input,
 select {
     display: block;
     font-family: Poppins;
+    font-weight: 600;
 }
 
 label {
@@ -39,22 +58,28 @@ label {
     margin-bottom: 1rem;
 }
 
-input:not(input[type="]),
+
+input:not([type="submit"], [type="search"]),
 select {
-    width: 7rem;
+    width: 10rem;
 }
 
 input[type="submit"] {
-    width: 4rem;
+    width: 7rem;
     grid-area: g;
+    margin-left: auto;
+    margin-right: auto;
+    height: 3rem;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+input[type="search"] {
+    width: 20rem;
 }
 
 #searchContainer {
     grid-area: a;
-}
-
-#search {
-    width: 15rem;
 }
 
 #colorContainer {
