@@ -11,7 +11,7 @@ async function apiCall(query) {
     return json;
 }
 
-// build query, meant to be passed as parameter to apiCall() 
+// build query, return value is meant to be passed as parameter to apiCall() 
 function buildQuery(
     searchTerm,
     color,
