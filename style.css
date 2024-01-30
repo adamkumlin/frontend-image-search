@@ -16,10 +16,13 @@ h1 {
 }
 
 #form {
-    display: flex;
+    display: grid;
+    grid-template-areas: 
+                        ". a ."
+                        "b c d"
+                        "e . f"
+                        ". g .";
     border: 2px solid blue;
-    align-items: center;
-    flex-direction: column;
 }
 
 label,
@@ -30,15 +33,51 @@ select {
 }
 
 label {
-    text-align: center;
+    display: flex;
+    place-items: center;
+    flex-direction: column;
     margin-bottom: 1rem;
 }
 
-input,
+input:not(input[type="]),
 select {
     width: 7rem;
 }
 
 input[type="submit"] {
     width: 4rem;
+    grid-area: g;
+}
+
+#searchContainer {
+    grid-area: a;
+}
+
+#search {
+    width: 15rem;
+}
+
+#colorContainer {
+    grid-area: b;
+}
+
+#categoryContainer {
+    grid-area: c;
+}
+
+#imageTypeContainer {
+    grid-area: d;
+}
+
+#resultsPerPageContainer {
+    grid-area: e;
+}
+
+#orderContainer {
+    grid-area: f;
+
+}
+
+#orderContainer label {
+    flex-direction: row;
 }
