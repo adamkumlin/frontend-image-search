@@ -43,9 +43,6 @@ h1 span {
         ". a ."
         "b c d"
         "e g f";
-    width: 50%;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 label,
@@ -55,14 +52,6 @@ select {
     font-family: Poppins;
     font-weight: 600;
 }
-
-label {
-    display: flex;
-    place-items: center;
-    flex-direction: column;
-    margin-bottom: 1rem;
-}
-
 
 input:not([type="submit"], [type="search"]),
 select {
@@ -89,6 +78,41 @@ input[type="search"] {
     width: 20rem;
 }
 
+#searchContainer,
+#categoryContainer,
+#colorContainer,
+#resultsPerPageContainer,
+#orderContainer,
+#imageTypeContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+#searchContainer,
+#categoryContainer {
+    align-items: center;
+}
+
+#colorContainer,
+#resultsPerPageContainer {
+    align-items: end;
+}
+
+#orderContainer,
+#imageTypeContainer {
+    align-items: start;
+}
+
+#orderContainer span,
+#imageTypeContainer span {
+    margin-left: 3rem;
+}
+
+#colorContainer span {
+    margin-right: 4rem;
+}
+
 #searchContainer {
     grid-area: a;
 }
@@ -111,18 +135,44 @@ input[type="search"] {
 
 #orderContainer {
     grid-area: f;
-
-}
-
-#orderContainer label {
-    flex-direction: row;
 }
 
 @media screen and (max-width: 1000px) {
     #form {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        text-align: center;
         margin: 0;
-        width: 100%;
+    }
+
+    #searchContainer,
+    #colorContainer,
+    #categoryContainer,
+    #imageTypeContainer,
+    #resultsPerPageContainer,
+    #orderContainer {
+        display: block;
+    }
+
+    #orderContainer span,
+    #imageTypeContainer span {
+        margin-left: 0;
+    }
+
+    #colorContainer span {
+        margin-right: 0;
+    }
+
+    h1 {
+        font-size: 300%;
+    }
+
+    h1 img {
+        width: 30px;
+    }
+
+    input[type="search"] {
+        width: 10rem;
     }
 }

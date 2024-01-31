@@ -60,12 +60,16 @@ function getJSONFromUserInput() {
     }
 }
 
-function searchAnimation() {
-    // For the search animation, add class with name "animated" to the image in the h1
+function searchAnimation(animate) {
+// Boolean determines when to start and stop the animation
     const image = document.querySelector("h1 img");
-    image.classList.add("animated");
-    
-    // TODO: remove class when displaying images, can be done later
+
+    if (animate) {
+        image.classList.add("animated");
+    } else {
+        image.classList.remove("animated");
+    }
+    // Add and remove class, respectively
 }
 
 // eventListener and it's associated function below
@@ -75,8 +79,10 @@ mainForm.addEventListener("submit", submitForm);
 function submitForm(e) {
     e.preventDefault();
 
-    searchAnimation();
+    searchAnimation(true);
     const pictureJSON = getJSONFromUserInput();
+    //searchAnimation(false);
+    // When data has been fetched/displayed
 
     console.log(pictureJSON);
 }
