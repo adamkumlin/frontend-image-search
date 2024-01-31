@@ -25,16 +25,21 @@ function buildQuery(
 }
 
 // api call, returns json 
-async function apiCallJSON(query) {
+function buildApiCall(query) {
     const url = "https://pixabay.com/api/?key=" +
         apikey +
         query;
-    const result = await fetch(url);
-    const json = await result.json();
+    const result = fetch(url);
+    const json = result.json();
     return json;
 }
 
 async function getJSONFromUserInput() {
+    
+    return url;
+}
+
+function buildApiCallWithUserInput() {
     // get all of the info the user has submitted
     const searchText = document.getElementById("search").value;
     const color = document.getElementById("color").value;
@@ -49,7 +54,7 @@ async function getJSONFromUserInput() {
             buildQuery(
                 searchText, color, category, imageType, resultsPerPage, order
             );
-        const json = await apiCallJSON(query);
+        const json = apiCallJSON(query);
         return json;
     }
     else {
@@ -58,8 +63,39 @@ async function getJSONFromUserInput() {
     }
 }
 
+async function getJsonFromApi() {
+    const apiCall = buildApiCallWithUserInput();
+    let result = fetch(apiCall)
+    .then((resp) => resp.json());
+    
+    return result;
+}
+
+// renders images + tags + user on the website 
+async function displayImages() {
+    const imageJson = await getJsonFromApi();
+    const main = document.querySelector("body main");
+
+    imageJson.hits.forEach(hit => {
+        let imageContainer = document.createElement("div");
+
+        let image = document.createElement("img");
+        image.src = hit.webformatURL;
+
+        let tags = document.createElement("p");
+        tags.textContent = hit.tags;
+
+        let username = document.createElement("p");
+        username.textContent = "Taken by: " + hit.user;
+
+        imageContainer.append(image, tags, username);
+        main.append(imageContainer);
+    })
+}
+
 function searchAnimation(animate) {
-// Boolean determines when to start and stop the animation
+    // Boolean determines when to start and stop the animation
+    // For the search animation, add class with name "animated" to the image in the h1
     const image = document.querySelector("h1 img");
 
     if (animate) {
@@ -77,24 +113,9 @@ mainForm.addEventListener("submit", submitForm);
 async function submitForm(e) {
     e.preventDefault();
 
-    searchAnimation(true);
-    const pictureJSON = await getJSONFromUserInput();
-    //searchAnimation(false);
+    // set searchAnimation(false);
     // When data has been fetched/displayed
-    convertJSONToHTML(pictureJSON.hits);
-}
+    searchAnimation(true);
 
-function convertJSONToHTML(json) {
-    for (result of json) {
-        console.log(result);
-        const imageContainer = document.createElement("div");
-        const image = document.createElement("img");
-        const main = document.getElementById("main");
-        image.src = result.largeImageURL;
-        imageContainer.appendChild(image);
-        main.append(imageContainer)
-
-        // Letting you do the rest ;)
-    }
-
+    displayImages();
 }
