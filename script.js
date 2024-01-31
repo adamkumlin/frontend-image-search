@@ -25,17 +25,15 @@ function buildQuery(
 }
 
 // api call, returns json 
-async function apiCallJSON(query) {
+function buildApiCall(query) {
     const url = "https://pixabay.com/api/?key=" +
         apikey +
         query;
-    const result = await fetch(url);
-    const json = await result.json();
-
-    return json;
+    
+    return url;
 }
 
-function getJSONFromUserInput() {
+function buildApiCallWithUserInput() {
     // get all of the info the user has submitted
     const searchText = document.getElementById("search").value;
     const color = document.getElementById("color").value;
@@ -50,9 +48,9 @@ function getJSONFromUserInput() {
             buildQuery(
                 searchText, color, category, imageType, resultsPerPage, order
             );
-        const json = apiCallJSON(query);
+        const apiCall = buildApiCall(query);
 
-        return json;
+        return apiCall;
     }
     else {
         alert("Fel: Sökfältet är tomt.")
@@ -60,8 +58,39 @@ function getJSONFromUserInput() {
     }
 }
 
+async function getJsonFromApi() {
+    const apiCall = buildApiCallWithUserInput();
+    let result = fetch(apiCall)
+    .then((resp) => resp.json());
+    
+    return result;
+}
+
+// renders images + tags + user on the website 
+async function displayImages() {
+    const imageJson = await getJsonFromApi();
+    const main = document.querySelector("body main");
+
+    imageJson.hits.forEach(hit => {
+        let imageContainer = document.createElement("div");
+
+        let image = document.createElement("img");
+        image.src = hit.webformatURL;
+
+        let tags = document.createElement("p");
+        tags.textContent = hit.tags;
+
+        let username = document.createElement("p");
+        username.textContent = "Taken by: " + hit.user;
+
+        imageContainer.append(image, tags, username);
+        main.append(imageContainer);
+    })
+}
+
 function searchAnimation(animate) {
-// Boolean determines when to start and stop the animation
+    // Boolean determines when to start and stop the animation
+    // For the search animation, add class with name "animated" to the image in the h1
     const image = document.querySelector("h1 img");
 
     if (animate) {
@@ -79,10 +108,9 @@ mainForm.addEventListener("submit", submitForm);
 function submitForm(e) {
     e.preventDefault();
 
-    searchAnimation(true);
-    const pictureJSON = getJSONFromUserInput();
-    //searchAnimation(false);
+    // set searchAnimation(false);
     // When data has been fetched/displayed
+    searchAnimation(true);
 
-    console.log(pictureJSON);
+    displayImages();
 }
