@@ -50,9 +50,9 @@ function getJSONFromUserInput() {
             buildQuery(
                 searchText, color, category, imageType, resultsPerPage, order
             );
-        const apiCallJSON = apiCallJSON(query);
+        const json = apiCallJSON(query);
 
-        return apiCallJSON;
+        return json;
     }
     else {
         alert("Fel: Sökfältet är tomt.")
@@ -77,5 +77,6 @@ function submitForm(e) {
 
     searchAnimation();
     const pictureJSON = getJSONFromUserInput();
-}
 
+    console.log(pictureJSON);
+}
