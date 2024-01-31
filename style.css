@@ -22,8 +22,13 @@ h1 img {
 
 h1 img.animated {
     animation: spin 1s infinite forwards;
-    /* How fast do we want the spinning animation to be? */
     animation-timing-function: linear;
+}
+
+h1 span {
+    position: absolute;
+    left: -999rem;
+    /* It's ugly it does the job, we might want to check with Jakob that our usage of 'position: absolute' is warranted */
 }
 
 @keyframes spin {
@@ -74,6 +79,12 @@ input[type="submit"] {
     cursor: pointer;
 }
 
+input[type="submit"]:hover {
+    transform: scale(1.3);
+    border-color: #646cff;
+    transition: 1s;
+}
+
 input[type="search"] {
     width: 20rem;
 }
@@ -105,4 +116,13 @@ input[type="search"] {
 
 #orderContainer label {
     flex-direction: row;
+}
+
+@media screen and (max-width: 1000px) {
+    #form {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        width: 100%;
+    }
 }
