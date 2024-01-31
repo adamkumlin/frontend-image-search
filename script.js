@@ -53,14 +53,7 @@ function submitForm(e) {
     const category = document.getElementById("category").value;
     const imageType = document.getElementById("imageType").value;
     const resultsPerPage = document.getElementById("resultsPerPage").value;
-    let order = "popular"; // using let so we can override in if-statement
-
-    if (document.getElementById("popular").checked) {
-        order = document.getElementById("popular").value;
-    }
-    if (document.getElementById("latest").checked) {
-        order = document.getElementById("latest").value;
-    }
+    const order = document.getElementById("order").value;
 
     if (searchText != "") {
         // Build query
