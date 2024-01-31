@@ -31,11 +31,10 @@ async function apiCallJSON(query) {
         query;
     const result = await fetch(url);
     const json = await result.json();
-
     return json;
 }
 
-function getJSONFromUserInput() {
+async function getJSONFromUserInput() {
     // get all of the info the user has submitted
     const searchText = document.getElementById("search").value;
     const color = document.getElementById("color").value;
@@ -50,8 +49,7 @@ function getJSONFromUserInput() {
             buildQuery(
                 searchText, color, category, imageType, resultsPerPage, order
             );
-        const json = apiCallJSON(query);
-
+        const json = await apiCallJSON(query);
         return json;
     }
     else {
@@ -76,13 +74,27 @@ function searchAnimation(animate) {
 const mainForm = document.getElementById("form");
 mainForm.addEventListener("submit", submitForm);
 
-function submitForm(e) {
+async function submitForm(e) {
     e.preventDefault();
 
     searchAnimation(true);
-    const pictureJSON = getJSONFromUserInput();
+    const pictureJSON = await getJSONFromUserInput();
     //searchAnimation(false);
     // When data has been fetched/displayed
+    convertJSONToHTML(pictureJSON.hits);
+}
 
-    console.log(pictureJSON);
+function convertJSONToHTML(json) {
+    for (result of json) {
+        console.log(result);
+        const imageContainer = document.createElement("div");
+        const image = document.createElement("img");
+        const main = document.getElementById("main");
+        image.src = result.largeImageURL;
+        imageContainer.appendChild(image);
+        main.append(imageContainer)
+
+        // Letting you do the rest ;)
+    }
+
 }
