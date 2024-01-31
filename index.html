@@ -25,7 +25,7 @@
   <form id="form">
     <label for="search" id="searchContainer">Sök<input type="search" id="search" placeholder="Cats" /></label>
     <label for="color" id="colorContainer">
-      Färg
+      <span>Färg</span>
       <select id="color">
         <option value="undefined">Alla</option>
         <option value="grayscale">Gråskala</option>
@@ -46,7 +46,7 @@
     </label>
 
     <label for="category" id="categoryContainer">
-      Kategori
+      <span>Kategori</span>
       <select id="category">
         <option value="undefined">Alla</option>
         <option value="backgrounds">Bakgrunder</option>
@@ -73,7 +73,7 @@
     </label>
 
     <label for="imageType" id="imageTypeContainer">
-      Bildtyp
+      <span>Bildtyp</span>
       <select id="imageType">
         <option value="all">Alla</option>
         <option value="photos">Foton</option>
@@ -83,7 +83,7 @@
     </label>
 
     <label for="resultsPerPage" id="resultsPerPageContainer">
-      Antal resultat per sida
+      Resultat per sida
       <select id="resultsPerPage">
         <option value="10">10</option>
         <option value="20">20</option>
@@ -94,13 +94,12 @@
     </label>
 
     <label for="order" id="orderContainer">
-      Sortera
+      <span>Sortera</span>
       <select id="order">
         <option value="popular">Populärast</option>
         <option value="latest">Senaste</option>
       </select>
     </label>
-
 
     <input type="submit" value="Sök" />
   </form>
