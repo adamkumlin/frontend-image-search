@@ -142,5 +142,9 @@ function submitForm(e) {
   // When data has been fetched/displayed
   searchAnimation(true);
 
-  displayImages();
+  displayImages()
+    .then(
+      setTimeout(() => {
+        searchAnimation(false)
+      }, 1000));
 }
