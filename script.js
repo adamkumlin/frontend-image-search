@@ -138,9 +138,21 @@ mainForm.addEventListener("submit", submitForm);
 function submitForm(e) {
   e.preventDefault();
 
+  let main = document.querySelector("body main");
+
+  // removes all children in main (i.e. removes all images)
+  // before adding result from new search
+  main.replaceChildren();
+
   // set searchAnimation(false);
   // When data has been fetched/displayed
   searchAnimation(true);
 
-  displayImages();
+  // renders the images on search, 
+  // .then handles shutter icon animation 
+  displayImages()
+    .then(
+      setTimeout(() => {
+        searchAnimation(false)
+      }, 1000));
 }
