@@ -1,5 +1,5 @@
 :root {
-    --main-bg-color: #333;
+    --main-bg-color: #d17272;
 }
 
 * {
@@ -164,10 +164,25 @@ main p span {
     cursor: pointer;
 }
 
+#navigationButtons {
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#navigationButtons button {
+    background-color: var(--main-bg-color);
+    border: 0;
+    margin: 0 1rem 0 1rem;
+}
+
+#navigationButtons button:disabled {
+    border: 2px solid red;
+}
+
 #navigationButtons img {
     width: 100px;
     height: 100px;
-    background-color: var(--main-bg-color);
 }
 
 @media screen and (max-width: 1000px) {
