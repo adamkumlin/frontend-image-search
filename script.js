@@ -88,7 +88,7 @@ async function displayImages() {
       
       tagElement.addEventListener("click", () => {
         searchText.value = tagsArray[i];
-        submitButton.click();
+        displayImages();
       });
 
       if (i == tagsArray.length - 1) {
