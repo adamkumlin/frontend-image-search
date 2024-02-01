@@ -137,6 +137,29 @@ input[type="search"] {
     grid-area: f;
 }
 
+main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+main img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 2px solid white;
+}
+
+main p:first-of-type {
+    color: blue;
+}
+
+main p span {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1000px) {
     #form {
         display: flex;
@@ -170,9 +193,15 @@ input[type="search"] {
 
     h1 img {
         width: 30px;
+        pointer-events: none;
     }
 
     input[type="search"] {
         width: 10rem;
+    }
+
+    main {
+        flex-direction: column;
+        place-content: center;
     }
 }
