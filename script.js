@@ -84,8 +84,7 @@ async function displayImages() {
     for (let i = 0; i < tagsArray.length; i++) {
       const tagElement = document.createElement("span");
       const searchText = document.getElementById("search");
-      const submitButton = document.getElementById("submit");
-      
+
       tagElement.addEventListener("click", () => {
         searchText.value = tagsArray[i];
         displayImages();
@@ -100,10 +99,21 @@ async function displayImages() {
       tags.append(tagElement);
     }
 
-    let username = document.createElement("p");
-    username.textContent = "Taken by: " + hit.user;
+    const usernameContainer = document.createElement("p");
+    let username = document.createElement("a");
 
-    imageContainer.append(image, tags, username);
+    const HOST_URL = "https://pixabay.com";
+    const userProfileUrl = new URL(
+      `/users/${hit.user}-${hit.user_id}`,
+      HOST_URL
+    );
+    username.textContent = hit.user;
+    username.href = userProfileUrl;
+    username.target = "_blank";
+
+    usernameContainer.textContent = "Av: ";
+    usernameContainer.append(username);
+    imageContainer.append(image, tags, usernameContainer);
     main.append(imageContainer);
   });
 }
