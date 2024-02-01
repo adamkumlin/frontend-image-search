@@ -153,11 +153,11 @@ main img {
 }
 
 main p:first-of-type {
-    color: white;
+    color: blue;
 }
 
-main p:first-of-type {
-
+main p span {
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1000px) {
