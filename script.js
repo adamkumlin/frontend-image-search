@@ -76,9 +76,22 @@ async function displayImages() {
 
         let image = document.createElement("img");
         image.src = hit.webformatURL;
+        image.alt = hit.tags;
 
         let tags = document.createElement("p");
-        tags.textContent = hit.tags;
+        const tagsArray = hit.tags.split(", ");
+        
+        for (let i = 0; i < tagsArray.length; i++) {
+            const tagElement = document.createElement("span");
+
+            if (i == tagsArray.length - 1) {
+                tagElement.textContent = "#" + tagsArray[i];
+            } else {
+                tagElement.textContent = "#" + tagsArray[i] + ", ";
+            }
+
+            tags.append(tagElement);
+        }
 
         let username = document.createElement("p");
         username.textContent = "Taken by: " + hit.user;

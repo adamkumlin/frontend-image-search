@@ -141,12 +141,23 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 main img {
     width: 300px;
     height: 300px;
     object-fit: cover;
+    border-radius: 20px;
+    border: 2px solid white;
+}
+
+main p:first-of-type {
+    color: white;
+}
+
+main p:first-of-type {
+
 }
 
 @media screen and (max-width: 1000px) {
@@ -182,9 +193,15 @@ main img {
 
     h1 img {
         width: 30px;
+        pointer-events: none;
     }
 
     input[type="search"] {
         width: 10rem;
+    }
+
+    main {
+        flex-direction: column;
+        place-content: center;
     }
 }
