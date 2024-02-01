@@ -1,3 +1,7 @@
+:root {
+    --main-bg-color: #333;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,7 +9,7 @@
 }
 
 body {
-    background-color: lightcoral;
+    background-color: var(--main-bg-color);
 }
 
 h1 {
@@ -158,6 +162,12 @@ main p:first-of-type {
 
 main p span {
     cursor: pointer;
+}
+
+#navigationButtons img {
+    width: 100px;
+    height: 100px;
+    background-color: var(--main-bg-color);
 }
 
 @media screen and (max-width: 1000px) {
