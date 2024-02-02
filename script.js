@@ -192,7 +192,12 @@ async function submitForm(e) {
   const apiCall = buildApiCallWithUserInput();
   const imageJsonNewSearch = await getJsonFromApi(apiCall)
     .then(response => searchAndDisplayImages(response));
-    
+  
+  // a second api call here is ugly and probably bad practice
+  // but i can not access totalHits otherwise 
+  const imageJsonTotalHits = await getJsonFromApi(apiCall)
+    .then(response => response.totalHits);
+
   const pageQuery = "&page=";
   let pageNumber = 1; // <-- 1 being the default value 
 
@@ -213,7 +218,17 @@ async function submitForm(e) {
   
   // next button event
   const nextButton = document.getElementById("next");
-  nextButton.onclick = () => {
-    
+  nextButton.onclick = async () => {
+    const resultsPerPage = document.getElementById("resultsPerPage").value;
+    if (imageJsonTotalHits > (resultsPerPage * pageNumber)) {
+      pageNumber = pageNumber + 1;
+      const newApiCall = apiCall + pageQuery + pageNumber;
+      await getJsonFromApi(newApiCall)
+        .then(response => searchAndDisplayImages(response));
+    }
+    else {
+      console.log("disable button now");
+      // [DISABLE NEXT PAGE BUTTON HERE]
+    }
   };
 }
