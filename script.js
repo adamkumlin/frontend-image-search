@@ -154,5 +154,5 @@ function submitForm(e) {
     .then(
       setTimeout(() => {
         searchAnimation(false)
-      }, 1000));
+      }, 800));
 }
