@@ -9,8 +9,15 @@
     padding: 0;
 }
 
+html {
+    height: 100%; /* <-- this is for correct footer placement */
+}
+
 body {
     background-color: var(--main-bg-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* <-- this is for correct footer placement */
 }
 
 h1 {
@@ -201,6 +208,14 @@ main div div p:nth-child(2) {
 #navigationButtons img {
     width: 100px;
     height: 100px;
+}
+
+/* centers footer & places it at bottom of page */
+footer {
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 8px;
 }
 
 @media screen and (max-width: 1000px) {

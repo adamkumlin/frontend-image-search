@@ -161,11 +161,11 @@ function submitForm(e) {
   // When data has been fetched/displayed
   searchAnimation(true);
 
-  // renders the images on search,
-  // .then handles shutter icon animation
-  displayImages().then(
-    setTimeout(() => {
-      searchAnimation(false);
-    }, 800)
-  );
+  // renders the images on search, 
+  // .then handles shutter icon animation 
+  displayImages()
+    .then(
+      setTimeout(() => {
+        searchAnimation(false)
+      }, 800));
 }
