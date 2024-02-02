@@ -40,7 +40,9 @@ function buildApiCallWithUserInput() {
   const resultsPerPage = document.getElementById("resultsPerPage").value;
   const order = document.getElementById("order").value;
 
-  if (searchText != "") {
+  if (searchText != "" 
+    && searchText.length > 0
+    && searchText.length <= 100) {
     // Build query & retrieve json from api
     const query = buildQuery(
       searchText,
@@ -53,22 +55,43 @@ function buildApiCallWithUserInput() {
     const apiCall = buildApiCall(query);
 
     return apiCall;
-  } else {
-    alert("Fel: Sökfältet är tomt.");
+  } 
+  else {
+    const main = document.querySelector("body main");
+    let h2 = document.createElement("h2");
+
+    if (searchText.length > 100) {
+      h2.textContent = "Sökfältet får inte innehålla mer än 100 tecken."
+    }
+    else {
+      h2.textContent = "Sökfältet får inte vara tomt."
+    }
+
+    main.append(h2);
+
     return;
   }
 }
 
 async function getJsonFromApi() {
   const apiCall = buildApiCallWithUserInput();
-  let result = fetch(apiCall).then((resp) => resp.json());
 
+  if (apiCall == undefined) {
+    return;
+  }
+
+  let result = fetch(apiCall).then((resp) => resp.json());
   return result;
 }
 
 // renders images + tags + user on the website
 async function displayImages() {
   const imageJson = await getJsonFromApi();
+
+  if (imageJson == undefined) {
+    return;
+  }
+
   const main = document.querySelector("body main");
 
   imageJson.hits.forEach((hit) => {
@@ -169,3 +192,15 @@ function submitForm(e) {
         searchAnimation(false)
       }, 800));
 }
+
+// previous button event
+const prevButton = document.getElementById("previous");
+prevButton.onclick = (e) => {
+  console.log("prev button pressed");
+};
+
+// next button event
+const nextButton = document.getElementById("next");
+nextButton.onclick = (e) => {
+  console.log("next button pressed");
+};
