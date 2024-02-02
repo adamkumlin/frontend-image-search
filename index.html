@@ -23,7 +23,8 @@
   <h1>Bildsökm<span>o</span><img src="/assets/shutter-icon.svg" alt="Camera shutter icon">tor</h1>
 
   <form id="form">
-    <label for="search" id="searchContainer">Sök<input type="search" id="search" placeholder="Cats" value="capybara"/></label>
+    <label for="search" id="searchContainer">Sök<input type="search" id="search" placeholder="Cats"
+        value="capybara" /></label>
     <label for="color" id="colorContainer">
       <span>Färg</span>
       <select id="color">
@@ -101,18 +102,21 @@
       </select>
     </label>
 
-    <input type="submit" value="Sök" id="submit"/>
+    <input type="submit" value="Sök" id="submit" />
   </form>
 
   <main>
     <!-- [PLACE PICTURE RESULTS HERE] -->
   </main>
+  
+  <div id="navigationButtons">
+    <button type="button" id="previous"><img src="./assets/back-icon.svg" alt="Left facing arrow icon"></button>
+    <button type="button" id="next"><img src="./assets/forward-icon.svg" alt="Right facing arrow icon"></button>
+  </div>
 
-  <!--<footer>
+  <footer>
     <p>&copy; 2024 Simon Sörqvist & Adam Kumlin</p>
-  </footer>-->
-  <!--Not currently at the bottom of the page, will get fixed automatically when we add more elements, 
-  or we can use 'position: relative' although it is discouraged in the assignment description-->
+  </footer>
 
   <script src="script.js"></script> <!-- script loads in here =====================-->
 </body>

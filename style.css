@@ -1,3 +1,7 @@
+:root {
+    --main-bg-color: #d17272;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,7 +9,7 @@
 }
 
 body {
-    background-color: lightcoral;
+    background-color: var(--main-bg-color);
 }
 
 h1 {
@@ -158,6 +162,34 @@ main p:first-of-type {
 
 main p span {
     cursor: pointer;
+}
+
+#navigationButtons {
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#navigationButtons button {
+    background-color: var(--main-bg-color);
+    border: 0;
+    margin: 1rem 1rem 0 1rem;
+    cursor: pointer;
+}
+
+#navigationButtons button:disabled {
+    border: 2px solid red;
+    /* For testing purposes */
+}
+
+#navigationButtons button:hover {
+    transform: scale(1.2);
+    transition: 500ms;
+}
+
+#navigationButtons img {
+    width: 100px;
+    height: 100px;
 }
 
 @media screen and (max-width: 1000px) {
