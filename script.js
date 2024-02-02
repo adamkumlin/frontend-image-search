@@ -55,22 +55,43 @@ function buildApiCallWithUserInput() {
     const apiCall = buildApiCall(query);
 
     return apiCall;
-  } else {
-    alert("Fel: Sökfältet är tomt.");
+  } 
+  else {
+    const main = document.querySelector("body main");
+    let h2 = document.createElement("h2");
+
+    if (searchText.length > 100) {
+      h2.textContent = "Sökfältet får inte innehålla mer än 100 tecken."
+    }
+    else {
+      h2.textContent = "Sökfältet får inte vara tomt."
+    }
+
+    main.append(h2);
+
     return;
   }
 }
 
 async function getJsonFromApi() {
   const apiCall = buildApiCallWithUserInput();
-  let result = fetch(apiCall).then((resp) => resp.json());
 
+  if (apiCall == undefined) {
+    return;
+  }
+
+  let result = fetch(apiCall).then((resp) => resp.json());
   return result;
 }
 
 // renders images + tags + user on the website
 async function displayImages() {
   const imageJson = await getJsonFromApi();
+
+  if (imageJson == undefined) {
+    return;
+  }
+
   const main = document.querySelector("body main");
 
   imageJson.hits.forEach((hit) => {
