@@ -169,3 +169,16 @@ function submitForm(e) {
         searchAnimation(false)
       }, 800));
 }
+
+// previous button event
+const prevButton = document.getElementById("previous");
+prevButton.onclick = (e) => {
+  displayImages("previous-page");
+  console.log("prev button pressed");
+};
+
+// next button event
+const nextButton = document.getElementById("next");
+nextButton.onclick = (e) => {
+  console.log("next button pressed");
+};
