@@ -39,7 +39,7 @@ function buildApiCallWithUserInput() {
   const imageType = document.getElementById("imageType").value;
   const resultsPerPage = document.getElementById("resultsPerPage").value;
   const order = document.getElementById("order").value;
-  const resetButton = document.getElementById("reset");
+  const resetButton = document.getElementById("resetButton");
 
   if (searchText != "" && searchText.length > 0 && searchText.length <= 100) {
     // Build query & retrieve json from api
@@ -72,7 +72,7 @@ function buildApiCallWithUserInput() {
   }
 }
 
-  const resetButton = document.getElementById("reset");
+  const resetButton = document.getElementById("resetButton");
   resetButton.addEventListener("click", () => {
     resetButton.classList.remove("active"); 
   })

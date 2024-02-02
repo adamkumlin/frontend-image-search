@@ -90,7 +90,7 @@ input[type="submit"]:hover {
     width: 20rem;
 }
 
-#reset {
+#resetButton {
     width: initial;
     display: none;
     position: relative;
@@ -99,7 +99,7 @@ input[type="submit"]:hover {
 }
 /* We might want to check with Jakob that our usage of 'position: relative' is warranted */
 
-#reset.active {
+#resetButton.active {
     display: inline-block;
 }
 
