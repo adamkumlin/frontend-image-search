@@ -73,6 +73,7 @@ async function displayImages() {
 
   imageJson.hits.forEach((hit) => {
     let imageContainer = document.createElement("div");
+    const detailsContainer = document.createElement("div");
 
     let image = document.createElement("img");
     image.src = hit.webformatURL;
@@ -82,19 +83,28 @@ async function displayImages() {
     const tagsArray = hit.tags.split(", ");
 
     for (let i = 0; i < tagsArray.length; i++) {
-      const tagElement = document.createElement("span");
+      const tagElement = document.createElement("a");
       const searchText = document.getElementById("search");
-
+      const submitButton = document.getElementById("submit");
       tagElement.addEventListener("click", () => {
         searchText.value = tagsArray[i];
-        displayImages();
-      });
+        main.replaceChildren();
 
-      if (i == tagsArray.length - 1) {
+        submitButton.click();
+        // To avoid recursion, essentially making a new search without clicking the submit button
+      });
+      // Assign the value of the search box to that of the tag that was clicked
+
+      tagElement.href = "#";
+      // Make the a-element behave like a link, also scrolls to the top of the page
+      // when clicked
+
+      if (i === tagsArray.length - 1) {
         tagElement.textContent = "#" + tagsArray[i];
       } else {
         tagElement.textContent = "#" + tagsArray[i] + ", ";
       }
+      // Add a hashtag (#) before and a comma followed by a space (, ) after each tagElement, except for the last element which only receives a hashtag before
 
       tags.append(tagElement);
     }
@@ -107,13 +117,16 @@ async function displayImages() {
       `/users/${hit.user}-${hit.user_id}`,
       HOST_URL
     );
+    // Build URL to user profile
+
     username.textContent = hit.user;
     username.href = userProfileUrl;
     username.target = "_blank";
 
     usernameContainer.textContent = "Av: ";
     usernameContainer.append(username);
-    imageContainer.append(image, tags, usernameContainer);
+    detailsContainer.append(tags, usernameContainer);
+    imageContainer.append(image, detailsContainer);
     main.append(imageContainer);
   });
 }

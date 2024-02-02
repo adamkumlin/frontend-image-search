@@ -1,5 +1,6 @@
 :root {
     --main-bg-color: #d17272;
+    --card-bg-color: #c4c4c4;
 }
 
 * {
@@ -155,20 +156,30 @@ main {
     justify-content: space-evenly;
 }
 
-main img {
+main>div {
+    margin: 1rem;
+    background-color: var(--card-bg-color);
+    border-radius: 20px;
+    border: 1px solid black;
+    padding: 0.5rem;
+}
+
+main div img {
     width: 300px;
     height: 300px;
     object-fit: cover;
     border-radius: 20px;
-    border: 2px solid white;
 }
 
-main p:first-of-type {
-    color: blue;
+main div div {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
 }
 
-main p span {
-    cursor: pointer;
+main div div p:nth-child(2) {
+    margin-top: 1rem;
+    font-size: 14px;
 }
 
 #navigationButtons {
