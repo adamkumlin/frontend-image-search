@@ -19,14 +19,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Courgette&family=Poppins&display=swap" rel="stylesheet">
+
+  <meta name="description" content="En bildsökmotor som använder Pixabay API för att hämta bilder.">
+  <meta name="keywords" content="Pixabay API, Bildsökmotor, Image search, Sök bilder">
+  <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-  <h1>Bildsökm<span>o</span><img src="/assets/shutter-icon.svg" alt="Camera shutter icon">tor</h1>
+  <h1>Bildsökm<span>o</span><img src="/assets/shutter-icon.svg" alt="">tor</h1>
+  <!--Alt-text is empty on purpose so that when selecting the heading, the alt-text is not included-->
 
   <form id="form">
-    <label for="search" id="searchContainer">Sök<input type="search" id="search" placeholder="Cats"
-        value="capybara" /></label>
+    <div id="searchContainer">
+      <label for="search">Sök<input type="text" id="search" placeholder="Cats" value="capybara" /></label>
+      <input type="reset" id="reset"/ >
+    </div>
     <label for="color" id="colorContainer">
       <span>Färg</span>
       <select id="color">
@@ -49,7 +56,7 @@
     </label>
 
     <label for="category" id="categoryContainer">
-      <span>Kategori</span>
+      Kategori
       <select id="category">
         <option value="undefined">Alla</option>
         <option value="backgrounds">Bakgrunder</option>
@@ -86,7 +93,7 @@
     </label>
 
     <label for="resultsPerPage" id="resultsPerPageContainer">
-      Resultat per sida
+      <span>Resultat per sida</span>
       <select id="resultsPerPage">
         <option value="10">10</option>
         <option value="20">20</option>
@@ -110,7 +117,7 @@
   <main>
     <!-- [PLACE PICTURE RESULTS HERE] -->
   </main>
-  
+
   <div id="navigationButtons">
     <button type="button" id="previous"><img src="./assets/back-icon.svg" alt="Left facing arrow icon"></button>
     <button type="button" id="next"><img src="./assets/forward-icon.svg" alt="Right facing arrow icon"></button>
