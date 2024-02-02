@@ -189,19 +189,31 @@ mainForm.addEventListener("submit", submitForm);
 async function submitForm(e) {
   e.preventDefault();
 
-  let apiCall = buildApiCallWithUserInput();
+  const apiCall = buildApiCallWithUserInput();
   const imageJsonNewSearch = await getJsonFromApi(apiCall)
     .then(response => searchAndDisplayImages(response));
     
+  const pageQuery = "&page=";
+  let pageNumber = 1; // <-- 1 being the default value 
+
   // previous button event
   const prevButton = document.getElementById("previous");
-  prevButton.onclick = () => {
-    console.log("prev button pressed");
+  prevButton.onclick = async () => {
+    if (pageNumber > 1) {
+      pageNumber = pageNumber - 1;
+      const newApiCall = apiCall + pageQuery + pageNumber;
+      await getJsonFromApi(newApiCall)
+        .then(response => searchAndDisplayImages(response));
+    }
+    else {
+      console.log("disable button now");
+      // [DISABLE PREVIOUS PAGE BUTTON HERE]
+    }
   };
   
   // next button event
   const nextButton = document.getElementById("next");
   nextButton.onclick = () => {
-    console.log("next button pressed");
+    
   };
 }
