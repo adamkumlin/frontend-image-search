@@ -40,7 +40,9 @@ function buildApiCallWithUserInput() {
   const resultsPerPage = document.getElementById("resultsPerPage").value;
   const order = document.getElementById("order").value;
 
-  if (searchText != "") {
+  if (searchText != "" 
+    && searchText.length > 0
+    && searchText.length <= 100) {
     // Build query & retrieve json from api
     const query = buildQuery(
       searchText,
