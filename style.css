@@ -162,6 +162,9 @@ main>div {
     border-radius: 20px;
     border: 1px solid black;
     padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
 }
 
 main div img {
@@ -169,17 +172,12 @@ main div img {
     height: 300px;
     object-fit: cover;
     border-radius: 20px;
+    margin-bottom: 1rem;
 }
 
-main div div {
-    display: flex;
-    flex-direction: column;
-    place-items: center;
-}
-
-main div div p:nth-child(2) {
-    margin-top: 1rem;
+main div p:last-of-type {
     font-size: 14px;
+    margin-top: 1rem;
 }
 
 #navigationButtons {
