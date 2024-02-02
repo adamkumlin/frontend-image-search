@@ -196,7 +196,6 @@ function submitForm(e) {
 // previous button event
 const prevButton = document.getElementById("previous");
 prevButton.onclick = (e) => {
-  displayImages("previous-page");
   console.log("prev button pressed");
 };
 
