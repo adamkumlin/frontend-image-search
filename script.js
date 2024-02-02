@@ -192,16 +192,16 @@ async function submitForm(e) {
   let apiCall = buildApiCallWithUserInput();
   const imageJsonNewSearch = await getJsonFromApi(apiCall)
     .then(response => searchAndDisplayImages(response));
+    
+  // previous button event
+  const prevButton = document.getElementById("previous");
+  prevButton.onclick = () => {
+    console.log("prev button pressed");
+  };
+  
+  // next button event
+  const nextButton = document.getElementById("next");
+  nextButton.onclick = () => {
+    console.log("next button pressed");
+  };
 }
-
-// previous button event
-const prevButton = document.getElementById("previous");
-prevButton.onclick = () => {
-  console.log("prev button pressed");
-};
-
-// next button event
-const nextButton = document.getElementById("next");
-nextButton.onclick = () => {
-  console.log("next button pressed");
-};
