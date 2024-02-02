@@ -96,7 +96,6 @@ async function displayImages() {
 
   imageJson.hits.forEach((hit) => {
     let imageContainer = document.createElement("div");
-    const detailsContainer = document.createElement("div");
 
     let image = document.createElement("img");
     image.src = hit.webformatURL;
@@ -148,8 +147,7 @@ async function displayImages() {
 
     usernameContainer.textContent = "Av: ";
     usernameContainer.append(username);
-    detailsContainer.append(tags, usernameContainer);
-    imageContainer.append(image, detailsContainer);
+    imageContainer.append(image, tags, usernameContainer);
     main.append(imageContainer);
   });
 }
