@@ -73,9 +73,7 @@ function buildApiCallWithUserInput() {
   }
 }
 
-async function getJsonFromApi() {
-  const apiCall = buildApiCallWithUserInput();
-
+async function getJsonFromApi(apiCall) {
   if (apiCall == undefined) {
     return;
   }
@@ -85,9 +83,7 @@ async function getJsonFromApi() {
 }
 
 // renders images + tags + user on the website
-async function displayImages() {
-  const imageJson = await getJsonFromApi();
-
+async function displayImages(imageJson) {
   if (imageJson == undefined) {
     return;
   }
@@ -165,40 +161,47 @@ function searchAnimation(animate) {
   // Add and remove class, respectively
 }
 
-// eventListener and it's associated function below
-const mainForm = document.getElementById("form");
-mainForm.addEventListener("submit", submitForm);
-
-function submitForm(e) {
-  e.preventDefault();
-
+function searchAndDisplayImages(imageJson) {
   let main = document.querySelector("body main");
-
+  
   // removes all children in main (i.e. removes all images)
   // before adding result from new search
   main.replaceChildren();
-
-  // set searchAnimation(false);
-  // When data has been fetched/displayed
+  
+  // below code runs on new search vvvvvvvvvv
+  // start shutter icon animation
   searchAnimation(true);
-
   // renders the images on search, 
-  // .then handles shutter icon animation 
-  displayImages()
+  // .then stops shutter icon animation 
+  displayImages(imageJson)
     .then(
       setTimeout(() => {
         searchAnimation(false)
       }, 800));
+
+  return;
+}
+
+// eventListener and it's associated function below
+const mainForm = document.getElementById("form");
+mainForm.addEventListener("submit", submitForm);
+
+async function submitForm(e) {
+  e.preventDefault();
+
+  let apiCall = buildApiCallWithUserInput();
+  const imageJsonNewSearch = await getJsonFromApi(apiCall)
+    .then(response => searchAndDisplayImages(response));
 }
 
 // previous button event
 const prevButton = document.getElementById("previous");
-prevButton.onclick = (e) => {
+prevButton.onclick = () => {
   console.log("prev button pressed");
 };
 
 // next button event
 const nextButton = document.getElementById("next");
-nextButton.onclick = (e) => {
+nextButton.onclick = () => {
   console.log("next button pressed");
 };
