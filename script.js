@@ -178,7 +178,7 @@ async function displayImages(imageJson) {
   });
 }
 
-async function downloadImage(url) {
+function downloadImage(url) {
   // Because of security concerns, you can only download files from the same origin/server (e.g localhost and not https://pixabay.com), which means we have to host the image on our own
   // local server. This can be solved using blob URLs (see below)
 
