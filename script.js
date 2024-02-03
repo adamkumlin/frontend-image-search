@@ -80,10 +80,10 @@ async function displayImages(imageJson) {
   }
 
   const main = document.querySelector("body main");
-  
+
   imageJson.hits.forEach((hit) => {
     let imageContainer = document.createElement("div");
-    
+
     let image = document.createElement("img");
     image.src = hit.webformatURL;
     image.alt = hit.tags;
@@ -101,10 +101,10 @@ async function displayImages(imageJson) {
     // .onclick makes it so no images are rendered, i do not know why)
     image.addEventListener("click", () => {
       imageContainer.id = "enlarged-image-div";
-      image.id = "enlarged-image"
+      image.id = "enlarged-image";
       image.src = hit.largeImageURL;
-      
-      // go back to search results button 
+
+      // go back to search results button
       let backButton = document.createElement("button");
       backButton.textContent = "Minimize";
       backButton.id = "enlarged-image-go-back-button";
@@ -113,7 +113,9 @@ async function displayImages(imageJson) {
         imageContainer.removeAttribute("id");
         image.removeAttribute("id");
 
-        const backButtonElement = document.getElementById("enlarged-image-go-back-button");
+        const backButtonElement = document.getElementById(
+          "enlarged-image-go-back-button"
+        );
         backButtonElement.parentNode.removeChild(backButtonElement);
       });
 
@@ -122,10 +124,10 @@ async function displayImages(imageJson) {
         imageContainer.append(backButton);
       }
     });
-    
+
     let tags = document.createElement("p");
     const tagsArray = hit.tags.split(", ");
-    
+
     for (let i = 0; i < tagsArray.length; i++) {
       const tagElement = document.createElement("a");
       const searchText = document.getElementById("search");
@@ -179,14 +181,15 @@ async function displayImages(imageJson) {
 }
 
 function downloadImage(url) {
-  // Because of security concerns, you can only download files from the same origin/server (e.g localhost and not https://pixabay.com), which means we have to host the image on our own
+  // Because of security concerns, using the download attribute, you can only download files from the same origin/server 
+  // (e.g localhost, http://127.0.0.1:5500/index.html and not https://pixabay.com), which means we have to host the image on our own
   // local server. This can be solved using blob URLs (see below)
 
   fetch(url)
     .then((response) => response.blob())
     .then((blob) => {
       const blobUrl = URL.createObjectURL(blob);
-      // Create an object URL (our local host (localhost) followed by the image's relative URL)
+      // Create an object URL (our machine's hostname (localhost) followed by the image's relative URL)
 
       const downloadLink = document.createElement("a");
 
