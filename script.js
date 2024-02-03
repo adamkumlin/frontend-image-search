@@ -55,16 +55,11 @@ function buildApiCallWithUserInput() {
 
     return apiCall;
   } else {
-    const main = document.querySelector("body main");
-    let h2 = document.createElement("h2");
-
     if (searchText.length > 100) {
-      h2.textContent = "Sökfältet får inte innehålla mer än 100 tecken.";
+      alert("Sökfältet får inte innehålla mer än 100 tecken.");
     } else {
-      h2.textContent = "Sökfältet får inte vara tomt.";
+      alert("Sökfältet får inte vara tomt.");
     }
-
-    main.append(h2);
     return;
   }
 }
@@ -92,6 +87,13 @@ async function displayImages(imageJson) {
     let image = document.createElement("img");
     image.src = hit.webformatURL;
     image.alt = hit.tags;
+
+    const downloadButton = document.createElement("button");
+    downloadButton.textContent = "Ladda ned";
+    downloadButton.type = "button";
+    downloadButton.onclick = () => {
+      downloadImage(hit.webformatURL);
+    };
 
     let tags = document.createElement("p");
     const tagsArray = hit.tags.split(", ");
@@ -143,9 +145,28 @@ async function displayImages(imageJson) {
 
     usernameContainer.textContent = "Av: ";
     usernameContainer.append(username);
-    imageContainer.append(image, tags, usernameContainer);
+    imageContainer.append(image, tags, usernameContainer, downloadButton);
     main.append(imageContainer);
   });
+}
+
+async function downloadImage(url) {
+  // Because of security concerns, you can only download files from the same origin/server (e.g localhost and not https://pixabay.com), which means we have to host the image on our own
+  // local server. This can be solved using blob URLs (see below)
+
+  fetch(url)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const blobUrl = URL.createObjectURL(blob);
+      // Create an object URL (our local host (localhost) followed by the image's relative URL)
+
+      const downloadLink = document.createElement("a");
+
+      downloadLink.href = blobUrl;
+      downloadLink.innerHTML = `Ladda ned <img src=${blobUrl} alt=""/>`;
+      downloadLink.download = "image.jpg";
+      downloadLink.click();
+    });
 }
 
 function searchAnimation(animate) {
@@ -177,8 +198,9 @@ function searchAndDisplayImages(imageJson) {
     .then(
       setTimeout(() => {
         searchAnimation(false);
-      }, 800))
-      .then(activateResetButton(true)); // <-- load reset button
+      }, 800)
+    )
+    .then(activateResetButton(true)); // <-- load reset button
 
   return;
 }
@@ -188,8 +210,7 @@ function activateResetButton(buttonActive) {
   const resetButton = document.getElementById("resetButton");
   if (buttonActive) {
     resetButton.classList.add("active");
-  }
-  else {
+  } else {
     resetButton.classList.remove("active");
   }
 }
@@ -250,4 +271,4 @@ async function submitForm(e) {
 const resetButton = document.getElementById("resetButton");
 resetButton.addEventListener("click", () => {
   activateResetButton(false);
-})
+});

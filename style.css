@@ -10,14 +10,16 @@
 }
 
 html {
-    height: 100%; /* <-- this is for correct footer placement */
+    height: 100%;
+    /* <-- this is for correct footer placement */
 }
 
 body {
     background-color: var(--main-bg-color);
     display: flex;
     flex-direction: column;
-    min-height: 100%; /* <-- this is for correct footer placement */
+    min-height: 100%;
+    /* <-- this is for correct footer placement */
 }
 
 h1 {
@@ -30,7 +32,10 @@ h1 {
 h1 img {
     width: 50px;
     height: auto;
+    position: relative;
+    bottom: -3px
 }
+/* We might want to check with Jakob that our usage of 'position: relative' is warranted */
 
 h1 img.animated {
     animation: spin 1s infinite forwards;
@@ -196,6 +201,11 @@ main div img {
     margin-bottom: 1rem;
 }
 
+main div button {
+    margin-top: 1rem;
+    height: 2rem;
+    cursor: pointer;
+}
 main div p:last-of-type {
     font-size: 14px;
     margin-top: 1rem;
@@ -276,6 +286,10 @@ footer {
 
     #search {
         width: 10rem;
+    }
+
+    #resetButton {
+        left: 3.7rem;
     }
 
     main {
