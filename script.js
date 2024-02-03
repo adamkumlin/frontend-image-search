@@ -55,7 +55,7 @@ function buildApiCallWithUserInput() {
     const apiCall = buildApiCall(query);
 
     resetButton.classList.add("active");
-    
+
     return apiCall;
   } else {
     const main = document.querySelector("body main");
@@ -71,11 +71,6 @@ function buildApiCallWithUserInput() {
     return;
   }
 }
-
-  const resetButton = document.getElementById("resetButton");
-  resetButton.addEventListener("click", () => {
-    resetButton.classList.remove("active"); 
-  })
 
 async function getJsonFromApi(apiCall) {
   if (apiCall == undefined) {
@@ -238,3 +233,8 @@ async function submitForm(e) {
     }
   };
 }
+
+const resetButton = document.getElementById("resetButton");
+resetButton.addEventListener("click", () => {
+  resetButton.classList.remove("active");
+})
