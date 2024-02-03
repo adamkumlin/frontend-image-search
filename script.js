@@ -110,6 +110,9 @@ async function displayImages(imageJson) {
       backButton.addEventListener("click", () => {
         imageContainer.removeAttribute("id");
         image.removeAttribute("id");
+
+        const backButtonElement = document.getElementById("enlarged-image-go-back-button");
+        backButtonElement.parentNode.removeChild(backButtonElement);
       });
 
       // check if current div has a button child, if not append it
