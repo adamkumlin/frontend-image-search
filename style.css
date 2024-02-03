@@ -86,8 +86,21 @@ input[type="submit"]:hover {
     transition: 1s;
 }
 
-input[type="search"] {
+#search {
     width: 20rem;
+}
+
+#resetButton {
+    width: initial;
+    display: none;
+    position: relative;
+    bottom: 24px;
+    left: 8.7rem;
+}
+/* We might want to check with Jakob that our usage of 'position: relative' is warranted */
+
+#resetButton.active {
+    display: inline-block;
 }
 
 #searchContainer,
@@ -104,6 +117,10 @@ input[type="search"] {
 #searchContainer,
 #categoryContainer {
     align-items: center;
+}
+
+#searchContainer label {
+    text-align: center;
 }
 
 #colorContainer,
@@ -123,6 +140,10 @@ input[type="search"] {
 
 #colorContainer span {
     margin-right: 4rem;
+}
+
+#resultsPerPageContainer span {
+    margin-right: 0.7rem;
 }
 
 #searchContainer {
@@ -184,6 +205,7 @@ main div p:last-of-type {
     width: fit-content;
     margin-right: auto;
     margin-left: auto;
+    margin-bottom: 2rem;
 }
 
 #navigationButtons button {
@@ -252,7 +274,7 @@ footer {
         pointer-events: none;
     }
 
-    input[type="search"] {
+    #search {
         width: 10rem;
     }
 

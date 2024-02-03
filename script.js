@@ -40,10 +40,9 @@ function buildApiCallWithUserInput() {
   const resultsPerPage = document.getElementById("resultsPerPage").value;
   const order = document.getElementById("order").value;
 
-  if (searchText != "" 
-    && searchText.length > 0
-    && searchText.length <= 100) {
+  if (searchText != "" && searchText.length > 0 && searchText.length <= 100) {
     // Build query & retrieve json from api
+
     const query = buildQuery(
       searchText,
       color,
@@ -55,20 +54,17 @@ function buildApiCallWithUserInput() {
     const apiCall = buildApiCall(query);
 
     return apiCall;
-  } 
-  else {
+  } else {
     const main = document.querySelector("body main");
     let h2 = document.createElement("h2");
 
     if (searchText.length > 100) {
-      h2.textContent = "Sökfältet får inte innehålla mer än 100 tecken."
-    }
-    else {
-      h2.textContent = "Sökfältet får inte vara tomt."
+      h2.textContent = "Sökfältet får inte innehålla mer än 100 tecken.";
+    } else {
+      h2.textContent = "Sökfältet får inte vara tomt.";
     }
 
     main.append(h2);
-
     return;
   }
 }
@@ -163,23 +159,30 @@ function searchAnimation(animate) {
 
 function searchAndDisplayImages(imageJson) {
   let main = document.querySelector("body main");
-  
+
   // removes all children in main (i.e. removes all images)
   // before adding result from new search
   main.replaceChildren();
-  
+
   // below code runs on new search vvvvvvvvvv
   // start shutter icon animation
   searchAnimation(true);
-  // renders the images on search, 
-  // .then stops shutter icon animation 
+  // renders the images on search,
+  // .then stops shutter icon animation
   displayImages(imageJson)
     .then(
       setTimeout(() => {
-        searchAnimation(false)
-      }, 800));
+        searchAnimation(false);
+      }, 800)
+        .then(activateResetButton()) // <-- load reset button
+    );
 
   return;
+}
+
+function activateResetButton() {
+  const resetButton = document.getElementById("resetButton");
+  resetButton.classList.add("active");
 }
 
 // eventListener and it's associated function below
@@ -190,16 +193,18 @@ async function submitForm(e) {
   e.preventDefault();
 
   const apiCall = buildApiCallWithUserInput();
-  const imageJsonNewSearch = await getJsonFromApi(apiCall)
-    .then(response => searchAndDisplayImages(response));
-  
+  const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
+    searchAndDisplayImages(response)
+  );
+
   // a second api call here is ugly and probably bad practice
-  // but i can not access totalHits otherwise 
-  const imageJsonTotalHits = await getJsonFromApi(apiCall)
-    .then(response => response.totalHits);
+  // but i can not access totalHits otherwise
+  const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
+    (response) => response.totalHits
+  );
 
   const pageQuery = "&page=";
-  let pageNumber = 1; // <-- 1 being the default value 
+  let pageNumber = 1; // <-- 1 being the default value
 
   // previous button event
   const prevButton = document.getElementById("previous");
@@ -207,28 +212,33 @@ async function submitForm(e) {
     if (pageNumber > 1) {
       pageNumber = pageNumber - 1;
       const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall)
-        .then(response => searchAndDisplayImages(response));
-    }
-    else {
+      await getJsonFromApi(newApiCall).then((response) =>
+        searchAndDisplayImages(response)
+      );
+    } else {
       console.log("disable button now");
       // [DISABLE PREVIOUS PAGE BUTTON HERE]
     }
   };
-  
+
   // next button event
   const nextButton = document.getElementById("next");
   nextButton.onclick = async () => {
     const resultsPerPage = document.getElementById("resultsPerPage").value;
-    if (imageJsonTotalHits > (resultsPerPage * pageNumber)) {
+    if (imageJsonTotalHits > resultsPerPage * pageNumber) {
       pageNumber = pageNumber + 1;
       const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall)
-        .then(response => searchAndDisplayImages(response));
-    }
-    else {
+      await getJsonFromApi(newApiCall).then((response) =>
+        searchAndDisplayImages(response)
+      );
+    } else {
       console.log("disable button now");
       // [DISABLE NEXT PAGE BUTTON HERE]
     }
   };
 }
+
+const resetButton = document.getElementById("resetButton");
+resetButton.addEventListener("click", () => {
+  resetButton.classList.remove("active");
+})
