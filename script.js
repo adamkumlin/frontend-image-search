@@ -85,24 +85,37 @@ async function displayImages(imageJson) {
   }
 
   const main = document.querySelector("body main");
-
+  
   imageJson.hits.forEach((hit) => {
     let imageContainer = document.createElement("div");
-
+    
     let image = document.createElement("img");
     image.src = hit.webformatURL;
     image.alt = hit.tags;
+
     // When user clicks on an image we want to render the
     // .largeImageURL as an enlarged version of the image
     // (we have to do this as an eventlistener for some reason
     // .onclick makes it so no images are rendered, i do not know why)
     image.addEventListener("click", () => {
-      console.log("display large image");
-    });
+      imageContainer.id = "enlarged-image";
+      image.src = hit.largeImageURL;
+      
+      // go back to search results button 
+      let backButton = document.createElement("button");
+      backButton.textContent = "back";
+      backButton.id = "large-image-go-back-button";
 
+      backButton.addEventListener("click", () => {
+        backButton.textContent = "removed";
+      });
+
+      imageContainer.append(backButton);
+    });
+    
     let tags = document.createElement("p");
     const tagsArray = hit.tags.split(", ");
-
+    
     for (let i = 0; i < tagsArray.length; i++) {
       const tagElement = document.createElement("a");
       const searchText = document.getElementById("search");
