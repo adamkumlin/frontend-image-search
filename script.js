@@ -80,10 +80,10 @@ async function displayImages(imageJson) {
   }
 
   const main = document.querySelector("body main");
-
+  
   imageJson.hits.forEach((hit) => {
     let imageContainer = document.createElement("div");
-
+    
     let image = document.createElement("img");
     image.src = hit.webformatURL;
     image.alt = hit.tags;
@@ -95,9 +95,37 @@ async function displayImages(imageJson) {
       downloadImage(hit.webformatURL);
     };
 
+    // When user clicks on an image we want to render the
+    // .largeImageURL as an enlarged version of the image
+    // (we have to do this as an eventlistener for some reason
+    // .onclick makes it so no images are rendered, i do not know why)
+    image.addEventListener("click", () => {
+      imageContainer.id = "enlarged-image-div";
+      image.id = "enlarged-image"
+      image.src = hit.largeImageURL;
+      
+      // go back to search results button 
+      let backButton = document.createElement("button");
+      backButton.textContent = "Minimize";
+      backButton.id = "enlarged-image-go-back-button";
+
+      backButton.addEventListener("click", () => {
+        imageContainer.removeAttribute("id");
+        image.removeAttribute("id");
+
+        const backButtonElement = document.getElementById("enlarged-image-go-back-button");
+        backButtonElement.parentNode.removeChild(backButtonElement);
+      });
+
+      // check if current div has a button child, if not append it
+      if (!imageContainer.querySelector("button")) {
+        imageContainer.append(backButton);
+      }
+    });
+    
     let tags = document.createElement("p");
     const tagsArray = hit.tags.split(", ");
-
+    
     for (let i = 0; i < tagsArray.length; i++) {
       const tagElement = document.createElement("a");
       const searchText = document.getElementById("search");

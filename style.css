@@ -182,6 +182,7 @@ main {
     justify-content: space-evenly;
 }
 
+/* main>div is the normal sized images */
 main>div {
     margin: 1rem;
     background-color: var(--card-bg-color);
@@ -193,7 +194,7 @@ main>div {
     place-items: center;
 }
 
-main div img {
+main div img:not(#enlarged-image) {
     width: 300px;
     height: 300px;
     object-fit: cover;
@@ -209,6 +210,26 @@ main div button {
 main div p:last-of-type {
     font-size: 14px;
     margin-top: 1rem;
+}
+
+/* #enlarged-image is the "full-size" version */
+main > #enlarged-image-div {
+    height: 100%;
+    width: fit-content;
+    margin-left: 100%;
+    margin-right: 100%;
+}
+
+main div #enlarged-image {
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+}
+
+/* TODO: Give minimize button an icon and place it
+    top left in the enlarged image window */
+main > #enlarged-image-div > #enlarged-image-go-back-button {
+    
 }
 
 #navigationButtons {
