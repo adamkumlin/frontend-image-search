@@ -101,6 +101,10 @@ async function displayImages(imageJson) {
       const searchText = document.getElementById("search");
       const submitButton = document.getElementById("submit");
       tagElement.addEventListener("click", () => {
+        // Reset all values of the search form before tag search
+        activateResetButton(true); // Activate button so that it is "click-able"
+        resetButton.click(); // Manually click reset button
+
         searchText.value = tagsArray[i];
         main.replaceChildren();
 
@@ -174,14 +178,20 @@ function searchAndDisplayImages(imageJson) {
       setTimeout(() => {
         searchAnimation(false);
       }, 800))
-      .then(activateResetButton()); // <-- load reset button
+      .then(activateResetButton(true)); // <-- load reset button
 
   return;
 }
 
-function activateResetButton() {
+// activateResetButton, true = button is active, false = button is removed
+function activateResetButton(buttonActive) {
   const resetButton = document.getElementById("resetButton");
-  resetButton.classList.add("active");
+  if (buttonActive) {
+    resetButton.classList.add("active");
+  }
+  else {
+    resetButton.classList.remove("active");
+  }
 }
 
 // eventListener and it's associated function below
@@ -239,5 +249,5 @@ async function submitForm(e) {
 
 const resetButton = document.getElementById("resetButton");
 resetButton.addEventListener("click", () => {
-  resetButton.classList.remove("active");
+  activateResetButton(false);
 })
