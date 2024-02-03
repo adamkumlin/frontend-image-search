@@ -173,9 +173,8 @@ function searchAndDisplayImages(imageJson) {
     .then(
       setTimeout(() => {
         searchAnimation(false);
-      }, 800)
-        .then(activateResetButton()) // <-- load reset button
-    );
+      }, 800))
+      .then(activateResetButton()); // <-- load reset button
 
   return;
 }
