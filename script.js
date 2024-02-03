@@ -92,6 +92,13 @@ async function displayImages(imageJson) {
     let image = document.createElement("img");
     image.src = hit.webformatURL;
     image.alt = hit.tags;
+    // When user clicks on an image we want to render the
+    // .largeImageURL as an enlarged version of the image
+    // (we have to do this as an eventlistener for some reason
+    // .onclick makes it so no images are rendered, i do not know why)
+    image.addEventListener("click", () => {
+      console.log("display large image");
+    });
 
     let tags = document.createElement("p");
     const tagsArray = hit.tags.split(", ");
