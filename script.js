@@ -98,16 +98,18 @@ async function displayImages(imageJson) {
     // (we have to do this as an eventlistener for some reason
     // .onclick makes it so no images are rendered, i do not know why)
     image.addEventListener("click", () => {
-      imageContainer.id = "enlarged-image";
+      imageContainer.id = "enlarged-image-div";
+      image.id = "enlarged-image"
       image.src = hit.largeImageURL;
       
       // go back to search results button 
       let backButton = document.createElement("button");
-      backButton.textContent = "back";
-      backButton.id = "large-image-go-back-button";
+      backButton.textContent = "Minimize";
+      backButton.id = "enlarged-image-go-back-button";
 
       backButton.addEventListener("click", () => {
-        backButton.textContent = "removed";
+        imageContainer.removeAttribute("id");
+        image.removeAttribute("id");
       });
 
       // check if current div has a button child, if not append it
