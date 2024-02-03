@@ -39,7 +39,6 @@ function buildApiCallWithUserInput() {
   const imageType = document.getElementById("imageType").value;
   const resultsPerPage = document.getElementById("resultsPerPage").value;
   const order = document.getElementById("order").value;
-  const resetButton = document.getElementById("resetButton");
 
   if (searchText != "" && searchText.length > 0 && searchText.length <= 100) {
     // Build query & retrieve json from api
@@ -53,8 +52,6 @@ function buildApiCallWithUserInput() {
       order
     );
     const apiCall = buildApiCall(query);
-
-    resetButton.classList.add("active");
 
     return apiCall;
   } else {
@@ -172,13 +169,20 @@ function searchAndDisplayImages(imageJson) {
   searchAnimation(true);
   // renders the images on search,
   // .then stops shutter icon animation
-  displayImages(imageJson).then(
-    setTimeout(() => {
-      searchAnimation(false);
-    }, 800)
-  );
+  displayImages(imageJson)
+    .then(
+      setTimeout(() => {
+        searchAnimation(false);
+      }, 800)
+        .then(activateResetButton()) // <-- load reset button
+    );
 
   return;
+}
+
+function activateResetButton() {
+  const resetButton = document.getElementById("resetButton");
+  resetButton.classList.add("active");
 }
 
 // eventListener and it's associated function below
