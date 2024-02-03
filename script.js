@@ -110,7 +110,10 @@ async function displayImages(imageJson) {
         backButton.textContent = "removed";
       });
 
-      imageContainer.append(backButton);
+      // check if current div has a button child, if not append it
+      if (!imageContainer.querySelector("button")) {
+        imageContainer.append(backButton);
+      }
     });
     
     let tags = document.createElement("p");
