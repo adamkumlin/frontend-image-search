@@ -101,6 +101,10 @@ async function displayImages(imageJson) {
       const searchText = document.getElementById("search");
       const submitButton = document.getElementById("submit");
       tagElement.addEventListener("click", () => {
+        // Reset all values of the search form before tag search
+        activateResetButton(); // Activate button so that it is "click-able"
+        resetButton.click(); // Manually click reset button
+
         searchText.value = tagsArray[i];
         main.replaceChildren();
 
