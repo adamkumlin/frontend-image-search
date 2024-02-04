@@ -244,7 +244,11 @@ async function submitForm(e) {
   let pageNumber = 1; // <-- 1 being the default value
 
   // previous button event
+  // ==================================================
   const prevButton = document.getElementById("previous");
+  prevButton.style.visibility = "visible";
+  prevButton.style.display = "block";
+
   prevButton.onclick = async () => {
     if (pageNumber > 1) {
       pageNumber = pageNumber - 1;
@@ -252,14 +256,16 @@ async function submitForm(e) {
       await getJsonFromApi(newApiCall).then((response) =>
         searchAndDisplayImages(response)
       );
-    } else {
-      console.log("disable button now");
-      // [DISABLE PREVIOUS PAGE BUTTON HERE]
-    }
+    } 
   };
+  // ==================================================
 
   // next button event
+  // ==================================================
   const nextButton = document.getElementById("next");
+  nextButton.style.visibility = "visible";
+  nextButton.style.display = "block";
+
   nextButton.onclick = async () => {
     const resultsPerPage = document.getElementById("resultsPerPage").value;
     if (imageJsonTotalHits > resultsPerPage * pageNumber) {
@@ -273,6 +279,7 @@ async function submitForm(e) {
       // [DISABLE NEXT PAGE BUTTON HERE]
     }
   };
+  // ==================================================
 }
 
 const resetButton = document.getElementById("resetButton");
