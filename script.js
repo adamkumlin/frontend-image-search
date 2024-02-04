@@ -55,16 +55,11 @@ function buildApiCallWithUserInput() {
 
     return apiCall;
   } else {
-    const main = document.querySelector("body main");
-    let h2 = document.createElement("h2");
-
     if (searchText.length > 100) {
-      h2.textContent = "Sökfältet får inte innehålla mer än 100 tecken.";
+      alert("Sökfältet får inte innehålla mer än 100 tecken.");
     } else {
-      h2.textContent = "Sökfältet får inte vara tomt.";
+      alert("Sökfältet får inte vara tomt.");
     }
-
-    main.append(h2);
     return;
   }
 }
