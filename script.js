@@ -230,81 +230,83 @@ async function submitForm(e) {
   e.preventDefault();
 
   const apiCall = buildApiCallWithUserInput();
-  const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
-    searchAndDisplayImages(response)
-  );
-
-  // a second api call here is ugly and probably bad practice
-  // but i can not access totalHits otherwise
-  const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
-    (response) => response.totalHits
-  );
-
-  const pageQuery = "&page=";
-  let pageNumber = 1; // <-- 1 being the default value
-
-  // previous button event
-  // ==================================================
-  const prevButton = document.getElementById("previous");
-  if (pageNumber === 1) {
-    prevButton.style.visibility = "hidden";
-    prevButton.style.display = "none";
-  }
-
-  // variable needed to check if next button should be visible
-  const resultsPerPage = document.getElementById("resultsPerPage").value;
-
-  prevButton.onclick = async () => {
-    if (pageNumber > 1) {
-      pageNumber = pageNumber - 1;
-      const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
-
-      // disable previous button again if we are on page 1
-      if (pageNumber === 1) {
-        prevButton.style.visibility = "hidden";
-        prevButton.style.display = "none";
-      }
-      // enable next button again after pressing previous
-      // button on last page 
-      if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
-        nextButton.style.visibility = "visible";
-        nextButton.style.display = "inline-block";
-      }
-    } 
-  };
-  // ==================================================
-
-  // next button event
-  // ==================================================
-  const nextButton = document.getElementById("next");
-  if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
-    nextButton.style.visibility = "visible";
-    nextButton.style.display = "inline-block";
-  }
-
-  nextButton.onclick = async () => {
-    if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
-      // Display previous button after pressing next
-      prevButton.style.visibility = "visible";
-      prevButton.style.display = "inline-block";
-
-      pageNumber = pageNumber + 1;
-      const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
-
-      // disable next button if we are on last page
-      if (!((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage)) {
-        nextButton.style.visibility = "hidden";
-        nextButton.style.display = "none";
-      }
+  if (apiCall) {
+    const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
+      searchAndDisplayImages(response)
+    );
+  
+    // a second api call here is ugly and probably bad practice
+    // but i can not access totalHits otherwise
+    const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
+      (response) => response.totalHits
+    );
+  
+    const pageQuery = "&page=";
+    let pageNumber = 1; // <-- 1 being the default value
+  
+    // previous button event
+    // ==================================================
+    const prevButton = document.getElementById("previous");
+    if (pageNumber === 1) {
+      prevButton.style.visibility = "hidden";
+      prevButton.style.display = "none";
     }
-  };
-  // ==================================================
+  
+    // variable needed to check if next button should be visible
+    const resultsPerPage = document.getElementById("resultsPerPage").value;
+  
+    prevButton.onclick = async () => {
+      if (pageNumber > 1) {
+        pageNumber = pageNumber - 1;
+        const newApiCall = apiCall + pageQuery + pageNumber;
+        await getJsonFromApi(newApiCall).then((response) =>
+          searchAndDisplayImages(response)
+        );
+  
+        // disable previous button again if we are on page 1
+        if (pageNumber === 1) {
+          prevButton.style.visibility = "hidden";
+          prevButton.style.display = "none";
+        }
+        // enable next button again after pressing previous
+        // button on last page 
+        if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+          nextButton.style.visibility = "visible";
+          nextButton.style.display = "inline-block";
+        }
+      } 
+    };
+    // ==================================================
+  
+    // next button event
+    // ==================================================
+    const nextButton = document.getElementById("next");
+    if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+      nextButton.style.visibility = "visible";
+      nextButton.style.display = "inline-block";
+    }
+  
+    nextButton.onclick = async () => {
+      if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+        // Display previous button after pressing next
+        prevButton.style.visibility = "visible";
+        prevButton.style.display = "inline-block";
+  
+        pageNumber = pageNumber + 1;
+        const newApiCall = apiCall + pageQuery + pageNumber;
+        await getJsonFromApi(newApiCall).then((response) =>
+          searchAndDisplayImages(response)
+        );
+  
+        // disable next button if we are on last page
+        if (!((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage)) {
+          nextButton.style.visibility = "hidden";
+          nextButton.style.display = "none";
+        }
+      }
+    };
+    // ==================================================
+  }
 }
 
 const resetButton = document.getElementById("resetButton");
