@@ -264,7 +264,19 @@ main > #enlarged-image-div > #enlarged-image-go-back-button {
 /* previous & next button rules
     these should be hidden until user performs search 
     override with javascript */
-#previous, #next {
+#navigationButtons > button {
+    visibility: hidden;
+    display: none;
+}
+
+body > div #previous.visible-button,
+body > div #next.visible-button {
+    visibility: visible;
+    display: inline-block;
+}
+
+body > div #previous.grayed-out-button,
+body > div #next.grayed-out-button {
     visibility: hidden;
     display: none;
 }

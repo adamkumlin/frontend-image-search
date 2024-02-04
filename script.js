@@ -290,8 +290,7 @@ async function submitForm(e) {
     // ==================================================
     const prevButton = document.getElementById("previous");
     if (pageNumber === 1) {
-      prevButton.style.visibility = "hidden";
-      prevButton.style.display = "none";
+      prevButton.classList.add("grayed-out-button");
     }
   
     // variable needed to check if next button should be visible
@@ -307,14 +306,14 @@ async function submitForm(e) {
   
         // disable previous button again if we are on page 1
         if (pageNumber === 1) {
-          prevButton.style.visibility = "hidden";
-          prevButton.style.display = "none";
+          prevButton.classList.remove("visible-button");
+          prevButton.classList.add("grayed-out-button");
         }
         // enable next button again after pressing previous
         // button on last page 
         if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
-          nextButton.style.visibility = "visible";
-          nextButton.style.display = "inline-block";
+          nextButton.classList.remove("grayed-out-button");
+          nextButton.classList.add("visible-button");
         }
       } 
     };
@@ -324,15 +323,14 @@ async function submitForm(e) {
     // ==================================================
     const nextButton = document.getElementById("next");
     if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
-      nextButton.style.visibility = "visible";
-      nextButton.style.display = "inline-block";
+      nextButton.classList.add("visible-button");
     }
   
     nextButton.onclick = async () => {
       if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
         // Display previous button after pressing next
-        prevButton.style.visibility = "visible";
-        prevButton.style.display = "inline-block";
+        prevButton.classList.remove("grayed-out-button");
+        prevButton.classList.add("visible-button");
   
         pageNumber = pageNumber + 1;
         const newApiCall = apiCall + pageQuery + pageNumber;
@@ -342,8 +340,8 @@ async function submitForm(e) {
   
         // disable next button if we are on last page
         if (!((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage)) {
-          nextButton.style.visibility = "hidden";
-          nextButton.style.display = "none";
+          nextButton.classList.remove("visible-button");
+          nextButton.classList.add("grayed-out-button");
         }
       }
     };
