@@ -247,7 +247,7 @@ async function submitForm(e) {
   // ==================================================
   const prevButton = document.getElementById("previous");
   prevButton.style.visibility = "visible";
-  prevButton.style.display = "block";
+  prevButton.style.display = "inline-block";
 
   prevButton.onclick = async () => {
     if (pageNumber > 1) {
@@ -264,7 +264,7 @@ async function submitForm(e) {
   // ==================================================
   const nextButton = document.getElementById("next");
   nextButton.style.visibility = "visible";
-  nextButton.style.display = "block";
+  nextButton.style.display = "inline-block";
 
   nextButton.onclick = async () => {
     const resultsPerPage = document.getElementById("resultsPerPage").value;
