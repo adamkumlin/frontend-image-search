@@ -239,11 +239,16 @@ main > #enlarged-image-div > #enlarged-image-go-back-button {
     margin-bottom: 2rem;
 }
 
+#pageButtons {
+    display: inline;
+}
+
 #navigationButtons button {
     background-color: var(--main-bg-color);
     border: 0;
-    margin: 1rem 1rem 0 1rem;
     cursor: pointer;
+    padding: 1rem;
+    font-size: 300%;
 }
 
 #navigationButtons button:disabled {
@@ -254,11 +259,6 @@ main > #enlarged-image-div > #enlarged-image-go-back-button {
 #navigationButtons button:hover {
     transform: scale(1.2);
     transition: 500ms;
-}
-
-#navigationButtons img {
-    width: 100px;
-    height: 100px;
 }
 
 /* centers footer & places it at bottom of page */
