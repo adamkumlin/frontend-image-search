@@ -246,74 +246,104 @@ function buildQuery(
       setTimeout(() => {
         searchAnimation(false);
       }, 800)
-      )
-      .then(activateResetButton(true)); // <-- load reset button
-      
-      return;
-    }
-    
-    // activateResetButton, true = button is active, false = button is removed
-    function activateResetButton(buttonActive) {
-      const resetButton = document.getElementById("resetButton");
-      if (buttonActive) {
-        resetButton.classList.add("active");
-      } else {
-        resetButton.classList.remove("active");
-      }
-    }
-    
-    // eventListener and it's associated function below
-    const mainForm = document.getElementById("form");
-    mainForm.addEventListener("submit", submitForm);
-    
-    async function submitForm(e) {
-      e.preventDefault();
-      
-      const apiCall = buildApiCallWithUserInput();
-      if (apiCall) {
-        const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
-        searchAndDisplayImages(response)
-        );
-        
-        let pageNumber = 1; // <-- 1 being the default value
-        // a second api call here is ugly and probably bad practice
-        // but i can not access totalHits otherwise
-        const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
-          (response) => response.totalHits
-          );
-          
-          const pageQuery = "&page=";
-          
-          // previous button event
-          const prevButton = document.getElementById("previous");
-          prevButton.onclick = async () => {
-            if (pageNumber > 1) {
-              pageNumber = pageNumber - 1;
-              const newApiCall = apiCall + pageQuery + pageNumber;
-              await getJsonFromApi(newApiCall).then((response) =>
-              searchAndDisplayImages(response)
-              );
-            } else {
-              console.log("disable button now");
-        // [DISABLE PREVIOUS PAGE BUTTON HERE]
-      }
-    };
+    )
+    .then(activateResetButton(true)); // <-- load reset button
 
+  return;
+}
+
+// activateResetButton, true = button is active, false = button is removed
+function activateResetButton(buttonActive) {
+  const resetButton = document.getElementById("resetButton");
+  if (buttonActive) {
+    resetButton.classList.add("active");
+  } else {
+    resetButton.classList.remove("active");
+  }
+}
+
+// eventListener and it's associated function below
+const mainForm = document.getElementById("form");
+mainForm.addEventListener("submit", submitForm);
+
+async function submitForm(e) {
+  e.preventDefault();
+
+  const apiCall = buildApiCallWithUserInput();
+  if (apiCall) {
+    const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
+      searchAndDisplayImages(response)
+    );
+  
+    // a second api call here is ugly and probably bad practice
+    // but i can not access totalHits otherwise
+    const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
+      (response) => response.totalHits
+    );
+  
+    const pageQuery = "&page=";
+    let pageNumber = 1; // <-- 1 being the default value
+  
+    // previous button event
+    // ==================================================
+    const prevButton = document.getElementById("previous");
+    if (pageNumber === 1) {
+      prevButton.classList.add("grayed-out-button");
+    }
+  
+    // variable needed to check if next button should be visible
+    const resultsPerPage = document.getElementById("resultsPerPage").value;
+  
+    prevButton.onclick = async () => {
+      if (pageNumber > 1) {
+        pageNumber = pageNumber - 1;
+        const newApiCall = apiCall + pageQuery + pageNumber;
+        await getJsonFromApi(newApiCall).then((response) =>
+          searchAndDisplayImages(response)
+        );
+  
+        // disable previous button again if we are on page 1
+        if (pageNumber === 1) {
+          prevButton.classList.remove("visible-button");
+          prevButton.classList.add("grayed-out-button");
+        }
+        // enable next button again after pressing previous
+        // button on last page 
+        if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+          nextButton.classList.remove("grayed-out-button");
+          nextButton.classList.add("visible-button");
+        }
+      } 
+    };
+    // ==================================================
+  
     // next button event
+    // ==================================================
     const nextButton = document.getElementById("next");
+    if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+      nextButton.classList.add("visible-button");
+    }
+  
     nextButton.onclick = async () => {
-      const resultsPerPage = document.getElementById("resultsPerPage").value;
-      if (imageJsonTotalHits > resultsPerPage * pageNumber) {
+      if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+        // Display previous button after pressing next
+        prevButton.classList.remove("grayed-out-button");
+        prevButton.classList.add("visible-button");
+  
         pageNumber = pageNumber + 1;
         const newApiCall = apiCall + pageQuery + pageNumber;
         await getJsonFromApi(newApiCall).then((response) =>
           searchAndDisplayImages(response)
         );
-      } else {
-        console.log("disable button now");
-        // [DISABLE NEXT PAGE BUTTON HERE]
+  
+        // disable next button if we are on last page
+        if (!((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage)) {
+          nextButton.classList.remove("visible-button");
+          nextButton.classList.add("grayed-out-button");
+        }
       }
     };
+    // ==================================================
   }
 }
 
