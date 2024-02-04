@@ -246,8 +246,10 @@ async function submitForm(e) {
   // previous button event
   // ==================================================
   const prevButton = document.getElementById("previous");
-  prevButton.style.visibility = "visible";
-  prevButton.style.display = "inline-block";
+  if (pageNumber === 1) {
+    prevButton.style.visibility = "hidden";
+    prevButton.style.display = "none";
+  }
 
   prevButton.onclick = async () => {
     if (pageNumber > 1) {
@@ -256,6 +258,12 @@ async function submitForm(e) {
       await getJsonFromApi(newApiCall).then((response) =>
         searchAndDisplayImages(response)
       );
+
+      // disable button again if we are on page 1
+      if (pageNumber === 1) {
+        prevButton.style.visibility = "hidden";
+        prevButton.style.display = "none";
+      }
     } 
   };
   // ==================================================
@@ -269,14 +277,15 @@ async function submitForm(e) {
   nextButton.onclick = async () => {
     const resultsPerPage = document.getElementById("resultsPerPage").value;
     if (imageJsonTotalHits > resultsPerPage * pageNumber) {
+      // Display previous button after pressing next
+      prevButton.style.visibility = "visible";
+      prevButton.style.display = "inline-block";
+
       pageNumber = pageNumber + 1;
       const newApiCall = apiCall + pageQuery + pageNumber;
       await getJsonFromApi(newApiCall).then((response) =>
         searchAndDisplayImages(response)
       );
-    } else {
-      console.log("disable button now");
-      // [DISABLE NEXT PAGE BUTTON HERE]
     }
   };
   // ==================================================
