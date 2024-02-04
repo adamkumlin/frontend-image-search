@@ -55,16 +55,11 @@ function buildApiCallWithUserInput() {
 
     return apiCall;
   } else {
-    const main = document.querySelector("body main");
-    let h2 = document.createElement("h2");
-
     if (searchText.length > 100) {
-      h2.textContent = "Sökfältet får inte innehålla mer än 100 tecken.";
+      alert("Sökfältet får inte innehålla mer än 100 tecken.");
     } else {
-      h2.textContent = "Sökfältet får inte vara tomt.";
+      alert("Sökfältet får inte vara tomt.");
     }
-
-    main.append(h2);
     return;
   }
 }
@@ -230,49 +225,51 @@ async function submitForm(e) {
   e.preventDefault();
 
   const apiCall = buildApiCallWithUserInput();
-  const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
-    searchAndDisplayImages(response)
-  );
-
-  // a second api call here is ugly and probably bad practice
-  // but i can not access totalHits otherwise
-  const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
-    (response) => response.totalHits
-  );
-
-  const pageQuery = "&page=";
-  let pageNumber = 1; // <-- 1 being the default value
-
-  // previous button event
-  const prevButton = document.getElementById("previous");
-  prevButton.onclick = async () => {
-    if (pageNumber > 1) {
-      pageNumber = pageNumber - 1;
-      const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
-    } else {
-      console.log("disable button now");
-      // [DISABLE PREVIOUS PAGE BUTTON HERE]
-    }
-  };
-
-  // next button event
-  const nextButton = document.getElementById("next");
-  nextButton.onclick = async () => {
-    const resultsPerPage = document.getElementById("resultsPerPage").value;
-    if (imageJsonTotalHits > resultsPerPage * pageNumber) {
-      pageNumber = pageNumber + 1;
-      const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
-    } else {
-      console.log("disable button now");
-      // [DISABLE NEXT PAGE BUTTON HERE]
-    }
-  };
+  if (apiCall) {
+    const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
+      searchAndDisplayImages(response)
+    );
+  
+    // a second api call here is ugly and probably bad practice
+    // but i can not access totalHits otherwise
+    const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
+      (response) => response.totalHits
+    );
+  
+    const pageQuery = "&page=";
+    let pageNumber = 1; // <-- 1 being the default value
+  
+    // previous button event
+    const prevButton = document.getElementById("previous");
+    prevButton.onclick = async () => {
+      if (pageNumber > 1) {
+        pageNumber = pageNumber - 1;
+        const newApiCall = apiCall + pageQuery + pageNumber;
+        await getJsonFromApi(newApiCall).then((response) =>
+          searchAndDisplayImages(response)
+        );
+      } else {
+        console.log("disable button now");
+        // [DISABLE PREVIOUS PAGE BUTTON HERE]
+      }
+    };
+  
+    // next button event
+    const nextButton = document.getElementById("next");
+    nextButton.onclick = async () => {
+      const resultsPerPage = document.getElementById("resultsPerPage").value;
+      if (imageJsonTotalHits > resultsPerPage * pageNumber) {
+        pageNumber = pageNumber + 1;
+        const newApiCall = apiCall + pageQuery + pageNumber;
+        await getJsonFromApi(newApiCall).then((response) =>
+          searchAndDisplayImages(response)
+        );
+      } else {
+        console.log("disable button now");
+        // [DISABLE NEXT PAGE BUTTON HERE]
+      }
+    };
+  }
 }
 
 const resetButton = document.getElementById("resetButton");
