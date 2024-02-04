@@ -252,7 +252,7 @@ main > #enlarged-image-div > #enlarged-image-go-back-button {
 }
 
 /* previous & next button rules
-    these should be hidden until user searches 
+    these should be hidden until user performs search 
     override with javascript */
 #previous, #next {
     visibility: hidden;

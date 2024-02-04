@@ -251,6 +251,9 @@ async function submitForm(e) {
     prevButton.style.display = "none";
   }
 
+  // variable needed to check if next button should be visible
+  const resultsPerPage = document.getElementById("resultsPerPage").value;
+
   prevButton.onclick = async () => {
     if (pageNumber > 1) {
       pageNumber = pageNumber - 1;
@@ -259,10 +262,16 @@ async function submitForm(e) {
         searchAndDisplayImages(response)
       );
 
-      // disable button again if we are on page 1
+      // disable previous button again if we are on page 1
       if (pageNumber === 1) {
         prevButton.style.visibility = "hidden";
         prevButton.style.display = "none";
+      }
+      // enable next button again after pressing previous
+      // button on last page 
+      if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+        nextButton.style.visibility = "visible";
+        nextButton.style.display = "inline-block";
       }
     } 
   };
@@ -271,12 +280,13 @@ async function submitForm(e) {
   // next button event
   // ==================================================
   const nextButton = document.getElementById("next");
-  nextButton.style.visibility = "visible";
-  nextButton.style.display = "inline-block";
+  if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+    nextButton.style.visibility = "visible";
+    nextButton.style.display = "inline-block";
+  }
 
   nextButton.onclick = async () => {
-    const resultsPerPage = document.getElementById("resultsPerPage").value;
-    if (imageJsonTotalHits > resultsPerPage * pageNumber) {
+    if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
       // Display previous button after pressing next
       prevButton.style.visibility = "visible";
       prevButton.style.display = "inline-block";
@@ -286,6 +296,12 @@ async function submitForm(e) {
       await getJsonFromApi(newApiCall).then((response) =>
         searchAndDisplayImages(response)
       );
+
+      // disable next button if we are on last page
+      if (!((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage)) {
+        nextButton.style.visibility = "hidden";
+        nextButton.style.display = "none";
+      }
     }
   };
   // ==================================================
