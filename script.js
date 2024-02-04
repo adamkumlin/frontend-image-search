@@ -181,22 +181,40 @@ async function displayImages(imageJson) {
 }
 
 function downloadImage(url) {
-  // Because of security concerns, using the download attribute, you can only download files from the same origin/server 
+  // Because of security concerns, using the download attribute, you can only download files from the same origin/server
   // (e.g localhost, http://127.0.0.1:5500/index.html and not https://pixabay.com), which means we have to host the image on our own
   // local server. This can be solved using blob URLs (see below)
 
   fetch(url)
     .then((response) => response.blob())
     .then((blob) => {
-      const blobUrl = URL.createObjectURL(blob);
+      let blobUrl = URL.createObjectURL(blob);
       // Create an object URL (our machine's hostname (localhost) followed by the image's relative URL)
 
       const downloadLink = document.createElement("a");
 
+      const date = new Date();
+      const today =
+        date.getFullYear() +
+        "-" +
+        date.getMonth() +
+        "-" +
+        date.getDate() +
+        "_" +
+        date.getHours() +
+        "." +
+        date.getMinutes() +
+        "." +
+        date.getSeconds() +
+        ".jpg";
+
       downloadLink.href = blobUrl;
       downloadLink.innerHTML = `Ladda ned <img src=${blobUrl} alt=""/>`;
-      downloadLink.download = "image.jpg";
+      downloadLink.download = today;
       downloadLink.click();
+
+      URL.revokeObjectURL(blobUrl);
+      // Release the blobUrl
     });
 }
 
