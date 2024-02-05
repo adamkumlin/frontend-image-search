@@ -99,30 +99,35 @@ async function displayImages(imageJson) {
     // .largeImageURL as an enlarged version of the image
     // (we have to do this as an eventlistener for some reason
     // .onclick makes it so no images are rendered, i do not know why)
-    image.addEventListener("click", () => {
-      imageContainer.id = "enlarged-image-div";
-      image.id = "enlarged-image";
-      image.src = hit.largeImageURL;
+    image.addEventListener("click", (e) => {
+      if (e.ctrlKey) {
+        window.open(hit.pageURL, "_blank");
+      }
+      else {
+        imageContainer.id = "enlarged-image-div";
+        image.id = "enlarged-image";
+        image.src = hit.largeImageURL;
 
-      // go back to search results button
-      let backButton = document.createElement("button");
-      backButton.textContent = "Minimize";
-      backButton.id = "enlarged-image-go-back-button";
+        // go back to search results button
+        let backButton = document.createElement("button");
+        backButton.textContent = "Minimize";
+        backButton.id = "enlarged-image-go-back-button";
 
-      backButton.addEventListener("click", () => {
-        imageContainer.removeAttribute("id");
-        image.removeAttribute("id");
+        backButton.addEventListener("click", () => {
+          imageContainer.removeAttribute("id");
+          image.removeAttribute("id");
 
-        const backButtonElement = document.getElementById(
-          "enlarged-image-go-back-button"
-        );
-        backButtonElement.parentNode.removeChild(backButtonElement);
-      });
+          const backButtonElement = document.getElementById(
+            "enlarged-image-go-back-button"
+          );
+          backButtonElement.parentNode.removeChild(backButtonElement);
+        });
 
-      // check if current div has a button child, if not append it
-      if (!imageContainer.querySelector(
-        "enlarged-image-go-back-button")) {
-        imageContainer.append(backButton);
+        // check if current div has a button child, if not append it
+        if (!imageContainer.querySelector(
+          "enlarged-image-go-back-button")) {
+          imageContainer.append(backButton);
+        }
       }
     });
 
