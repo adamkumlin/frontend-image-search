@@ -226,6 +226,12 @@ main div #enlarged-image {
     margin-bottom: 1rem;
 }
 
+/* vvv this needs to be changed if we change to icons for the buttons */
+#back-and-download-button-container {
+    display: flex;
+    flex-direction: row;
+}
+
 /* TODO: Give minimize button an icon and place it
     top left in the enlarged image window */
 main > #enlarged-image-div > #enlarged-image-go-back-button {

@@ -88,41 +88,49 @@ async function displayImages(imageJson) {
     image.src = hit.webformatURL;
     image.alt = hit.tags;
 
-    const downloadButton = document.createElement("button");
-    downloadButton.textContent = "Ladda ned";
-    downloadButton.type = "button";
-    downloadButton.onclick = () => {
-      downloadImage(hit.webformatURL);
-    };
-
+    
     // When user clicks on an image we want to render the
     // .largeImageURL as an enlarged version of the image
-    // (we have to do this as an eventlistener for some reason
-    // .onclick makes it so no images are rendered, i do not know why)
+    // along with a minimize button and a download button
     image.addEventListener("click", () => {
       imageContainer.id = "enlarged-image-div";
       image.id = "enlarged-image";
       image.src = hit.largeImageURL;
 
+      const backAndDownloadButtonContainer = document.createElement("div");
+      backAndDownloadButtonContainer.id = "back-and-download-button-container";
+
+      const downloadButton = document.createElement("button");
+      downloadButton.textContent = "Ladda ned";
+      downloadButton.alt = "Ladda ner vald bild";
+      downloadButton.type = "button";
+      downloadButton.onclick = () => {
+        downloadImage(hit.webformatURL);
+      };
+
       // go back to search results button
       let backButton = document.createElement("button");
-      backButton.textContent = "Minimize";
+      backButton.textContent = "Minimera";
+      backButton.alt = "Knapp som minimerar stor bild";
       backButton.id = "enlarged-image-go-back-button";
 
       backButton.addEventListener("click", () => {
         imageContainer.removeAttribute("id");
         image.removeAttribute("id");
 
-        const backButtonElement = document.getElementById(
-          "enlarged-image-go-back-button"
+        const backAndDownloadButtonDiv = document.getElementById(
+          "back-and-download-button-container"
         );
-        backButtonElement.parentNode.removeChild(backButtonElement);
+        backAndDownloadButtonDiv.parentNode.removeChild(backAndDownloadButtonDiv);
       });
 
-      // check if current div has a button child, if not append it
+      // check if imageContainer has the minimize button, if not, 
+      // add it & the download button 
       if (!imageContainer.querySelector(
         "enlarged-image-go-back-button")) {
-        imageContainer.append(backButton);
+          backAndDownloadButtonContainer.append(backButton);
+          backAndDownloadButtonContainer.append(downloadButton);
+          imageContainer.append(backAndDownloadButtonContainer);
       }
     });
 
@@ -176,7 +184,7 @@ async function displayImages(imageJson) {
 
     usernameContainer.textContent = "Av: ";
     usernameContainer.append(username);
-    imageContainer.append(image, tags, usernameContainer, downloadButton);
+    imageContainer.append(image, tags, usernameContainer);
     main.append(imageContainer);
   });
 }
