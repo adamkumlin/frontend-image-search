@@ -99,42 +99,43 @@ async function displayImages(imageJson) {
       else {
         imageContainer.id = "enlarged-image-div";
         image.id = "enlarged-image";
-        image.src = hit.largeImageURL;
-  
-        const backAndDownloadButtonContainer = document.createElement("div");
-        backAndDownloadButtonContainer.id = "back-and-download-button-container";
-  
-        const downloadButton = document.createElement("button");
-        downloadButton.textContent = "Ladda ned";
-        downloadButton.alt = "Ladda ner vald bild";
-        downloadButton.type = "button";
-        downloadButton.onclick = () => {
-          downloadImage(hit.webformatURL);
-        };
-  
-        // go back to search results button
-        let backButton = document.createElement("button");
-        backButton.textContent = "Minimera";
-        backButton.alt = "Knapp som minimerar stor bild";
-        backButton.id = "enlarged-image-go-back-button";
-  
-        backButton.addEventListener("click", () => {
-          imageContainer.removeAttribute("id");
-          image.removeAttribute("id");
-  
-          const backAndDownloadButtonDiv = document.getElementById(
-            "back-and-download-button-container"
-          );
-          backAndDownloadButtonDiv.parentNode.removeChild(backAndDownloadButtonDiv);
-        });
-  
-        // check if imageContainer has the minimize button, if not, 
-        // add it & the download button 
-        if (!imageContainer.querySelector(
-          "enlarged-image-go-back-button")) {
-            backAndDownloadButtonContainer.append(backButton);
-            backAndDownloadButtonContainer.append(downloadButton);
-            imageContainer.append(backAndDownloadButtonContainer);
+
+        // check if imageContainer has the minimize & download button, 
+        // if not, add it & the download button 
+        if (!document.getElementById("back-and-download-button-container")) {
+          image.src = hit.largeImageURL;
+    
+          const backAndDownloadButtonContainer = document.createElement("div");
+          backAndDownloadButtonContainer.id = "back-and-download-button-container";
+    
+          const downloadButton = document.createElement("button");
+          downloadButton.textContent = "Ladda ned";
+          downloadButton.alt = "Ladda ner vald bild";
+          downloadButton.type = "button";
+          downloadButton.onclick = () => {
+            downloadImage(hit.webformatURL);
+          };
+    
+          // go back to search results button
+          let backButton = document.createElement("button");
+          backButton.textContent = "Minimera";
+          backButton.alt = "Knapp som minimerar stor bild";
+          backButton.id = "enlarged-image-go-back-button";
+    
+          backButton.addEventListener("click", () => {
+            imageContainer.removeAttribute("id");
+            image.removeAttribute("id");
+    
+            const backAndDownloadButtonDiv = document.getElementById(
+              "back-and-download-button-container"
+            );
+            backAndDownloadButtonDiv.parentNode.removeChild(backAndDownloadButtonDiv);
+          });
+
+          backAndDownloadButtonContainer.append(backButton);
+          backAndDownloadButtonContainer.append(downloadButton);
+          imageContainer.append(backAndDownloadButtonContainer);
+          console.log("there should not be 2 of this message");
         }
       }
     });
