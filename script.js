@@ -120,7 +120,8 @@ async function displayImages(imageJson) {
       });
 
       // check if current div has a button child, if not append it
-      if (!imageContainer.querySelector("button")) {
+      if (!imageContainer.querySelector(
+        "enlarged-image-go-back-button")) {
         imageContainer.append(backButton);
       }
     });
@@ -276,26 +277,26 @@ async function submitForm(e) {
     const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
       searchAndDisplayImages(response)
     );
-  
+
     // a second api call here is ugly and probably bad practice
     // but i can not access totalHits otherwise
     const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
       (response) => response.totalHits
     );
-  
+
     const pageQuery = "&page=";
     let pageNumber = 1; // <-- 1 being the default value
-  
+
     // previous button event
     // ==================================================
     const prevButton = document.getElementById("previous");
     if (pageNumber === 1) {
       prevButton.classList.add("grayed-out-button");
     }
-  
+
     // variable needed to check if next button should be visible
     const resultsPerPage = document.getElementById("resultsPerPage").value;
-  
+
     prevButton.onclick = async () => {
       if (pageNumber > 1) {
         pageNumber = pageNumber - 1;
@@ -303,7 +304,7 @@ async function submitForm(e) {
         await getJsonFromApi(newApiCall).then((response) =>
           searchAndDisplayImages(response)
         );
-  
+
         // disable previous button again if we are on page 1
         if (pageNumber === 1) {
           prevButton.classList.remove("visible-button");
@@ -315,29 +316,29 @@ async function submitForm(e) {
           nextButton.classList.remove("grayed-out-button");
           nextButton.classList.add("visible-button");
         }
-      } 
+      }
     };
     // ==================================================
-  
+
     // next button event
     // ==================================================
     const nextButton = document.getElementById("next");
     if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
       nextButton.classList.add("visible-button");
     }
-  
+
     nextButton.onclick = async () => {
       if ((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
         // Display previous button after pressing next
         prevButton.classList.remove("grayed-out-button");
         prevButton.classList.add("visible-button");
-  
+
         pageNumber = pageNumber + 1;
         const newApiCall = apiCall + pageQuery + pageNumber;
         await getJsonFromApi(newApiCall).then((response) =>
           searchAndDisplayImages(response)
         );
-  
+
         // disable next button if we are on last page
         if (!((imageJsonTotalHits - (resultsPerPage * pageNumber)) > resultsPerPage)) {
           nextButton.classList.remove("visible-button");
