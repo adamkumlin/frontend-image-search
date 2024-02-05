@@ -97,12 +97,13 @@ async function displayImages(imageJson) {
         window.open(hit.pageURL, "_blank");
       }
       else {
-        imageContainer.id = "enlarged-image-div";
-        image.id = "enlarged-image";
-
         // check if imageContainer has the minimize & download button, 
         // if not, add it & the download button 
-        if (!document.getElementById("back-and-download-button-container")) {
+        if (!imageContainer.querySelector(
+          "#back-and-download-button-container")
+          ) {
+          imageContainer.id = "enlarged-image-div";
+          image.id = "enlarged-image";
           image.src = hit.largeImageURL;
     
           const backAndDownloadButtonContainer = document.createElement("div");
@@ -126,8 +127,8 @@ async function displayImages(imageJson) {
             imageContainer.removeAttribute("id");
             image.removeAttribute("id");
     
-            const backAndDownloadButtonDiv = document.getElementById(
-              "back-and-download-button-container"
+            const backAndDownloadButtonDiv = imageContainer.querySelector(
+              "#back-and-download-button-container"
             );
             backAndDownloadButtonDiv.parentNode.removeChild(backAndDownloadButtonDiv);
           });
@@ -135,7 +136,6 @@ async function displayImages(imageJson) {
           backAndDownloadButtonContainer.append(backButton);
           backAndDownloadButtonContainer.append(downloadButton);
           imageContainer.append(backAndDownloadButtonContainer);
-          console.log("there should not be 2 of this message");
         }
       }
     });
