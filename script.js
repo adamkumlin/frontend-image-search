@@ -87,7 +87,6 @@ async function displayImages(imageJson) {
     image.alt = hit.tags;
 
     const downloadButton = document.createElement("button");
-    downloadButton.textContent = "Ladda ned";
     downloadButton.type = "button";
     downloadButton.onclick = () => {
       downloadImage(hit.webformatURL);
@@ -100,8 +99,7 @@ async function displayImages(imageJson) {
     image.addEventListener("click", (e) => {
       if (e.ctrlKey) {
         window.open(hit.pageURL, "_blank");
-      }
-      else {
+      } else {
         imageContainer.id = "enlarged-image-div";
         image.id = "enlarged-image";
         image.src = hit.largeImageURL;
@@ -122,8 +120,7 @@ async function displayImages(imageJson) {
         });
 
         // check if current div has a button child, if not append it
-        if (!imageContainer.querySelector(
-          "enlarged-image-go-back-button")) {
+        if (!imageContainer.querySelector("enlarged-image-go-back-button")) {
           imageContainer.append(backButton);
         }
       }
@@ -213,7 +210,7 @@ function downloadImage(url) {
         ".jpg";
 
       downloadLink.href = blobUrl;
-      downloadLink.innerHTML = `Ladda ned <img src=${blobUrl} alt=""/>`;
+      downloadLink.innerHTML = `<img src=${blobUrl} alt=""/>`;
       downloadLink.download = today;
       downloadLink.click();
 
@@ -362,27 +359,34 @@ async function submitForm(e) {
 function generatePageButtons(totalHits) {
   const resultsPerPage = document.getElementById("resultsPerPage").value;
   const totalPages = Math.ceil(totalHits / resultsPerPage);
+  // Get the total amount of pages, rounded up
+
   let firstPageShown = pageNumber - 5;
   let lastPageShown = pageNumber + 5;
 
   if (lastPageShown >= totalPages) {
     return;
   }
+
   const pageButtonsContainer = document.getElementById("pageButtons");
   pageButtonsContainer.replaceChildren();
 
-  for (let i = firstPageShown; i < lastPageShown; i++) {
+  for (let i = firstPageShown; i <= lastPageShown; i++) {
     const pageButton = document.createElement("button");
     pageButton.textContent = i;
-    console.log(pageNumber);
     const apiCall = buildApiCallWithUserInput() + "&page=" + i;
+    // Create new API-call for each button
+
     pageButton.onclick = () => {
       getJsonFromApi(apiCall).then((response) =>
         searchAndDisplayImages(response)
       );
-      if (i > 5) {
-        pageNumber = i;
+      if (i === lastPageShown && lastPageShown != totalPages) {
+        pageNumber++;
+      } else if (i === firstPageShown && firstPageShown != 1) {
+        pageNumber--;
       }
+      // So that the pageNumber doesn't get out of range of available pages
     };
     pageButtonsContainer.append(pageButton);
   }
