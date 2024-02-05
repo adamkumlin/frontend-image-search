@@ -35,6 +35,7 @@ h1 img {
     position: relative;
     bottom: -3px
 }
+
 /* We might want to check with Jakob that our usage of 'position: relative' is warranted */
 
 h1 img.animated {
@@ -102,6 +103,7 @@ input[type="submit"]:hover {
     bottom: 24px;
     left: 8.7rem;
 }
+
 /* We might want to check with Jakob that our usage of 'position: relative' is warranted */
 
 #resetButton.active {
@@ -202,7 +204,7 @@ main div img:not(#enlarged-image) {
     margin-bottom: 1rem;
 }
 
-main div button {
+main div button:nth-of-type(2) {
     margin-top: 1rem;
     height: 2rem;
     cursor: pointer;
@@ -212,13 +214,14 @@ main div button {
     width: 2rem;
     border: 0;
 }
+
 main div p:last-of-type {
     font-size: 14px;
     margin-top: 1rem;
 }
 
 /* #enlarged-image is the "full-size" version */
-main > #enlarged-image-div {
+main>#enlarged-image-div {
     height: 100%;
     width: fit-content;
     margin-left: 100%;
@@ -239,9 +242,7 @@ main div #enlarged-image {
 
 /* TODO: Give minimize button an icon and place it
     top left in the enlarged image window */
-main > #enlarged-image-div > #enlarged-image-go-back-button {
-    
-}
+main>#enlarged-image-div>#enlarged-image-go-back-button {}
 
 #navigationButtons {
     width: fit-content;
@@ -280,19 +281,19 @@ main > #enlarged-image-div > #enlarged-image-go-back-button {
 /* previous & next button rules
     these should be hidden until user performs search 
     override with javascript */
-#navigationButtons > button {
+#navigationButtons>button {
     visibility: hidden;
     display: none;
 }
 
-body > div #previous.visible-button,
-body > div #next.visible-button {
+body>div #previous.visible-button,
+body>div #next.visible-button {
     visibility: visible;
     display: inline-block;
 }
 
-body > div #previous.grayed-out-button,
-body > div #next.grayed-out-button {
+body>div #previous.grayed-out-button,
+body>div #next.grayed-out-button {
     visibility: hidden;
     display: none;
 }

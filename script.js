@@ -1,6 +1,6 @@
 // api key
 const apikey = "42111173-a877c127734af95d5350e4bd2";
-let pageNumber = 6; // <-- 1 being the default value
+let middlePageButton = 4; // <-- 1 being the default value
 
 // build query, return value is meant to be passed as parameter to apiCall()
 function buildQuery(
@@ -102,41 +102,42 @@ async function displayImages(imageJson) {
         imageContainer.id = "enlarged-image-div";
         image.id = "enlarged-image";
         image.src = hit.largeImageURL;
-  
+
         const backAndDownloadButtonContainer = document.createElement("div");
-        backAndDownloadButtonContainer.id = "back-and-download-button-container";
-  
+        backAndDownloadButtonContainer.id =
+          "back-and-download-button-container";
+
         const downloadButton = document.createElement("button");
-        downloadButton.textContent = "Ladda ned";
         downloadButton.alt = "Ladda ner vald bild";
         downloadButton.type = "button";
         downloadButton.onclick = () => {
           downloadImage(hit.webformatURL);
         };
-  
+
         // go back to search results button
         let backButton = document.createElement("button");
         backButton.textContent = "Minimera";
         backButton.alt = "Knapp som minimerar stor bild";
         backButton.id = "enlarged-image-go-back-button";
-  
+
         backButton.addEventListener("click", () => {
           imageContainer.removeAttribute("id");
           image.removeAttribute("id");
-  
+
           const backAndDownloadButtonDiv = document.getElementById(
             "back-and-download-button-container"
           );
-          backAndDownloadButtonDiv.parentNode.removeChild(backAndDownloadButtonDiv);
+          backAndDownloadButtonDiv.parentNode.removeChild(
+            backAndDownloadButtonDiv
+          );
         });
-  
-        // check if imageContainer has the minimize button, if not, 
-        // add it & the download button 
-        if (!imageContainer.querySelector(
-          "enlarged-image-go-back-button")) {
-            backAndDownloadButtonContainer.append(backButton);
-            backAndDownloadButtonContainer.append(downloadButton);
-            imageContainer.append(backAndDownloadButtonContainer);
+
+        // check if imageContainer has the minimize button, if not,
+        // add it & the download button
+        if (!imageContainer.querySelector("enlarged-image-go-back-button")) {
+          backAndDownloadButtonContainer.append(backButton);
+          backAndDownloadButtonContainer.append(downloadButton);
+          imageContainer.append(backAndDownloadButtonContainer);
         }
       }
     });
@@ -253,7 +254,6 @@ function searchAndDisplayImages(imageJson) {
   // removes all children in main (i.e. removes all images)
   // before adding result from new search
   main.replaceChildren();
-  generatePageButtons(imageJson.totalHits);
 
   // below code runs on new search vvvvvvvvvv
   // start shutter icon animation
@@ -305,7 +305,7 @@ async function submitForm(e) {
     // previous button event
     // ==================================================
     const prevButton = document.getElementById("previous");
-    if (pageNumber === 1) {
+    if (middlePageButton === 4) {
       prevButton.classList.add("grayed-out-button");
     }
 
@@ -313,23 +313,21 @@ async function submitForm(e) {
     const resultsPerPage = document.getElementById("resultsPerPage").value;
 
     prevButton.onclick = async () => {
-      if (pageNumber > 5) {
-        pageNumber = pageNumber - 1;
-        const newApiCall = apiCall + pageQuery + pageNumber;
+      if (middlePageButton > 4) {
+        middlePageButton = middlePageButton - 1;
+        const newApiCall = apiCall + pageQuery + middlePageButton;
         await getJsonFromApi(newApiCall).then((response) =>
           searchAndDisplayImages(response)
         );
 
-        generatePageButtons(imageJsonTotalHits);
-
         // disable previous button again if we are on page 1
-        if (pageNumber === 1) {
+        if (middlePageButton === 4) {
           prevButton.classList.remove("visible-button");
           prevButton.classList.add("grayed-out-button");
         }
         // enable next button again after pressing previous
         // button on last page
-        if (imageJsonTotalHits - resultsPerPage * pageNumber > resultsPerPage) {
+        if (imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage) {
           nextButton.classList.remove("grayed-out-button");
           nextButton.classList.add("visible-button");
         }
@@ -340,27 +338,25 @@ async function submitForm(e) {
     // next button event
     // ==================================================
     const nextButton = document.getElementById("next");
-    if (imageJsonTotalHits - resultsPerPage * pageNumber > resultsPerPage) {
+    if (imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage) {
       nextButton.classList.add("visible-button");
     }
 
     nextButton.onclick = async () => {
-      if (imageJsonTotalHits - resultsPerPage * pageNumber > resultsPerPage) {
+      if (imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage) {
         // Display previous button after pressing next
         prevButton.classList.remove("grayed-out-button");
         prevButton.classList.add("visible-button");
 
-        pageNumber = pageNumber + 1;
-        const newApiCall = apiCall + pageQuery + pageNumber;
+        middlePageButton = middlePageButton + 1;
+        const newApiCall = apiCall + pageQuery + middlePageButton;
         await getJsonFromApi(newApiCall).then((response) =>
           searchAndDisplayImages(response)
         );
 
-        generatePageButtons(imageJsonTotalHits);
-
         // disable next button if we are on last page
         if (
-          !(imageJsonTotalHits - resultsPerPage * pageNumber > resultsPerPage)
+          !(imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage)
         ) {
           nextButton.classList.remove("visible-button");
           nextButton.classList.add("grayed-out-button");
@@ -376,8 +372,8 @@ function generatePageButtons(totalHits) {
   const totalPages = Math.ceil(totalHits / resultsPerPage);
   // Get the total amount of pages, rounded up
 
-  let firstPageShown = pageNumber - 5;
-  let lastPageShown = pageNumber + 5;
+  let firstPageShown = middlePageButton - 3;
+  let lastPageShown = middlePageButton + 3;
 
   if (lastPageShown >= totalPages) {
     return;
@@ -385,6 +381,12 @@ function generatePageButtons(totalHits) {
 
   const pageButtonsContainer = document.getElementById("pageButtons");
   pageButtonsContainer.replaceChildren();
+
+  if (firstPageShown != 1) {
+    const startOfPageButtonsMarker = document.createElement("span");
+    startOfPageButtonsMarker.textContent = "...";
+    pageButtonsContainer.append(startOfPageButtonsMarker);
+  }
 
   for (let i = firstPageShown; i <= lastPageShown; i++) {
     const pageButton = document.createElement("button");
@@ -397,17 +399,20 @@ function generatePageButtons(totalHits) {
         searchAndDisplayImages(response)
       );
       if (i === lastPageShown && lastPageShown != totalPages) {
-        pageNumber++;
+        middlePageButton++;
       } else if (i === firstPageShown && firstPageShown != 1) {
-        pageNumber--;
+        middlePageButton--;
       }
       // So that the pageNumber doesn't get out of range of available pages
     };
     pageButtonsContainer.append(pageButton);
   }
-  const endOfPageButtonsMarker = document.createElement("span");
-  endOfPageButtonsMarker.textContent = "...";
-  pageButtonsContainer.append(endOfPageButtonsMarker);
+
+  if (lastPageShown != totalPages) {
+    const endOfPageButtonsMarker = document.createElement("span");
+    endOfPageButtonsMarker.textContent = "...";
+    pageButtonsContainer.append(endOfPageButtonsMarker);
+  }
 }
 
 const resetButton = document.getElementById("resetButton");
