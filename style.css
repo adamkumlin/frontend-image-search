@@ -1,8 +1,3 @@
-:root {
-    --main-bg-color: #d17272;
-    --card-bg-color: #c4c4c4;
-}
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -20,6 +15,9 @@ body {
     flex-direction: column;
     min-height: 100%;
     /* <-- this is for correct footer placement */
+    background: linear-gradient(30deg, rgba(2, 0, 36, 1) 0%, rgba(8, 7, 106, 1) 21%, rgba(9, 9, 121, 1) 37%, rgba(26, 9, 120, 1) 54%, rgba(0, 212, 255, 1) 97%);
+    background-attachment: fixed;
+    color: white;
 }
 
 h1 {
@@ -33,8 +31,10 @@ h1 img {
     width: 50px;
     height: auto;
     position: relative;
-    bottom: -3px
+    bottom: -3px;
+    filter: invert(100%) sepia(0%) saturate(7476%) hue-rotate(110deg) brightness(98%) contrast(108%);
 }
+
 /* We might want to check with Jakob that our usage of 'position: relative' is warranted */
 
 h1 img.animated {
@@ -102,6 +102,7 @@ input[type="submit"]:hover {
     bottom: 24px;
     left: 8.7rem;
 }
+
 /* We might want to check with Jakob that our usage of 'position: relative' is warranted */
 
 #resetButton.active {
@@ -180,63 +181,81 @@ main {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    font-family: Poppins;
 }
 
 /* main>div is the normal sized images */
 main>div {
     margin: 1rem;
-    background-color: var(--card-bg-color);
-    border-radius: 20px;
+    background-color: white;
     border: 1px solid black;
-    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     place-items: center;
+    color: black;
+    border-radius: 20px;
+    width: 300px;
+    text-align: center;
 }
 
-main div img:not(.enlarged-image) {
+/* Only applies to divs who do not have an element with id "enlarged image" as a child */
+main>div:not(:has(#enlarged-image)):hover {
+    transform: scale(1.05) rotate(1deg);
+    transition: 300ms;
+}
+
+main div img:not(#enlarged-image) {
     width: 300px;
     height: 300px;
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: 20px 20px 0 0;
     margin-bottom: 1rem;
 }
 
 main div button {
+    margin: 1rem;
+}
+
+main div button:nth-of-type(2) {
     margin-top: 1rem;
     height: 2rem;
     cursor: pointer;
+    background-image: url("./assets/download-icon.svg");
+    background-repeat: no-repeat;
+    background-color: white;
+    width: 2rem;
+    border: 0;
 }
+
 main div p:last-of-type {
     font-size: 14px;
     margin-top: 1rem;
 }
 
-/* .enlarged-image is the "full-size" version */
-main > .enlarged-image-div {
+/* #enlarged-image is the "full-size" version */
+main>#enlarged-image-div {
     height: 100%;
     width: fit-content;
     margin-left: 100%;
     margin-right: 100%;
 }
 
-main div .enlarged-image {
+main div #enlarged-image {
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: 20px 20px 0 0;
     margin-bottom: 1rem;
+    max-width: 80vw;
 }
 
 /* vvv this needs to be changed if we change to icons for the buttons */
-.back-and-download-button-container {
+#back-and-download-button-container {
     display: flex;
     flex-direction: row;
 }
 
 /* TODO: Give minimize button an icon and place it
     top left in the enlarged image window */
-main > .enlarged-image-div > .enlarged-image-go-back-button {
-    
-}
+main>#enlarged-image-div>#enlarged-image-go-back-button {}
 
 #navigationButtons {
     width: fit-content;
@@ -245,11 +264,17 @@ main > .enlarged-image-div > .enlarged-image-go-back-button {
     margin-bottom: 2rem;
 }
 
+#pageButtons {
+    display: inline;
+}
+
 #navigationButtons button {
-    background-color: var(--main-bg-color);
+    color: white;
+    background-color: transparent;
     border: 0;
-    margin: 1rem 1rem 0 1rem;
     cursor: pointer;
+    padding: 1rem;
+    font-size: 300%;
 }
 
 #navigationButtons button:disabled {
@@ -270,19 +295,19 @@ main > .enlarged-image-div > .enlarged-image-go-back-button {
 /* previous & next button rules
     these should be hidden until user performs search 
     override with javascript */
-#navigationButtons > button {
+#navigationButtons>button {
     visibility: hidden;
     display: none;
 }
 
-body > div #previous.visible-button,
-body > div #next.visible-button {
+body>div #previous.visible-button,
+body>div #next.visible-button {
     visibility: visible;
     display: inline-block;
 }
 
-body > div #previous.grayed-out-button,
-body > div #next.grayed-out-button {
+body>div #previous.grayed-out-button,
+body>div #next.grayed-out-button {
     visibility: hidden;
     display: none;
 }
@@ -293,6 +318,7 @@ footer {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 8px;
+    font-family: Poppins;
 }
 
 @media screen and (max-width: 1000px) {
