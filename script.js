@@ -303,6 +303,21 @@ resetButton.addEventListener("click", () => {
   activateResetButton(false);
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // creates next, previous & numbered page buttons
 function generatePageButtons(totalHits) {
   const apiCall = buildApiCallWithUserInput();
@@ -326,6 +341,15 @@ function generatePageButtons(totalHits) {
   // vv evaluate if needed vv 
   let middlePageButton = 4;
 
+
+
+
+
+
+
+
+
+
   /*
   - if there are less than 7 pages, display the total amount of pages
   - if there is only 1 page, 
@@ -340,45 +364,66 @@ function generatePageButtons(totalHits) {
 
   pageButtonsContainer.replaceChildren();
 
-  if (firstNumberedPage != 1) {
+
+  // vv this loop is important and re-usable <3
+  for (let i = pageNumber; i <= lastNumberedPage; i++) {
+    const pageButton = document.createElement("button");
+    pageButton.textContent = i;
+    // Create new API-call for each button
+    const apiCall = buildApiCallWithUserInput() + "&page=" + i;
+    
+    pageButton.onclick = () => {
+      getJsonFromApi(apiCall).then((response) =>
+      searchAndDisplayImages(response)
+      );
+      // So that the pageNumber doesn't get out of range of available pages
+      if (i === lastNumberedPage && lastNumberedPage != totalPages) {
+        pageNumber++;
+      } else if (i === firstNumberedPage && firstNumberedPage != 1) {
+        middlePageButton--;
+      }
+      
+      // // so that previous button is generated
+      // // prevButton.classList.add("grayed-out-button");visible-button
+      // const prevButton = document.getElementById("previous");
+      // if (i === 1) {
+      //   prevButton.classList.remove("visible-button");
+      //   prevButton.classList.add("grayed-out-button");
+      // }
+      // else {
+      //   prevButton.classList.remove("grayed-out-button");
+      //   prevButton.classList.add("visible-button");
+      // }
+    };
+    pageButtonsContainer.append(pageButton);
+  }
+
+  
+  
+  
+
+
+  
+  
+  // =====================================================
+
+  // add ... in front of numbered pages 
+  // true if current page - 3 is greater than 1 
+  // should be added before nr pages generated
+  if ((pageNumber - 3) > 1) {
     const startOfPageButtonsMarker = document.createElement("span");
     startOfPageButtonsMarker.textContent = "...";
     pageButtonsContainer.append(startOfPageButtonsMarker);
   }
 
-  for (let i = firstNumberedPage; i <= lastNumberedPage; i++) {
-    const pageButton = document.createElement("button");
-    pageButton.textContent = i;
-    const apiCall = buildApiCallWithUserInput() + "&page=" + i;
-    // Create new API-call for each button
-
-    pageButton.onclick = () => {
-      getJsonFromApi(apiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
-      // So that the pageNumber doesn't get out of range of available pages
-      if (i === lastNumberedPage && lastNumberedPage != totalPages) {
-        middlePageButton++;
-      } else if (i === firstNumberedPage && firstNumberedPage != 1) {
-        middlePageButton--;
-      }
-
-      // so that previous button is generated
-      // prevButton.classList.add("grayed-out-button");visible-button
-      const prevButton = document.getElementById("previous");
-      if (i === 1) {
-        prevButton.classList.remove("visible-button");
-        prevButton.classList.add("grayed-out-button");
-      }
-      else {
-        prevButton.classList.remove("grayed-out-button");
-        prevButton.classList.add("visible-button");
-      }
-    };
-    pageButtonsContainer.append(pageButton);
-  }
-
-  if (lastNumberedPage != totalPages) {
+  // add ... at the end of the numbered pages
+  // true if we are on page 4 or higher and last page is more than 3 pages away
+  // true if we are on first page and last page is more than 6 pages away
+  // should be added after nr pages generated
+  if (
+    (pageNumber >= 4 && (pageNumber + 3) < totalPages)
+    || ((pageNumber + 6) < totalPages)) 
+  {
     const endOfPageButtonsMarker = document.createElement("span");
     endOfPageButtonsMarker.textContent = "...";
     pageButtonsContainer.append(endOfPageButtonsMarker);
@@ -389,27 +434,8 @@ function generatePageButtons(totalHits) {
 
   // ===============================================================
 
-  prevButton.onclick = async () => {
-    if (pageNumber > 1) {
-      pageNumber = pageNumber - 1;
-
-      const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
-
-      // disable previous button again if we are on page 1
-      if (pageNumber === 1) {
-        prevButton.classList.remove("visible-button");
-        prevButton.classList.add("grayed-out-button");
-      }
-      // enable next button again after pressing previous
-      // button on last page
-      if ((totalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
-        nextButton.classList.remove("grayed-out-button");
-        nextButton.classList.add("visible-button");
-      }
-    }
+  prevButton.onclick = () => {
+    prevButtonEvent();
   };
 
   // adds nextbutton if not on last page
@@ -443,6 +469,34 @@ function generatePageButtons(totalHits) {
       if (pageNumber === totalPages) {
         nextButton.classList.remove("visible-button");
         nextButton.classList.add("grayed-out-button");
+      }
+    }
+  }
+
+  async function prevButtonEvent(pageNum) {
+    if (pageNum) {
+      pageNumber = pageNum;
+    }
+    if (pageNumber > 1) {
+      if (!pageNum) {
+        pageNumber = pageNumber - 1;
+      }
+
+      const newApiCall = apiCall + pageQuery + pageNumber;
+      await getJsonFromApi(newApiCall).then((response) =>
+        searchAndDisplayImages(response)
+      );
+
+      // disable previous button again if we are on page 1
+      if (pageNumber === 1) {
+        prevButton.classList.remove("visible-button");
+        prevButton.classList.add("grayed-out-button");
+      }
+      // enable next button again after pressing previous
+      // button on last page
+      if ((totalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+        nextButton.classList.remove("grayed-out-button");
+        nextButton.classList.add("visible-button");
       }
     }
   }
