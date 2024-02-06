@@ -238,12 +238,12 @@ function searchAnimation(animate) {
   // For the search animation, add class with name "animated" to the image in the h1
   const image = document.querySelector("h1 img");
 
+  // Add and remove class, respectively
   if (animate) {
     image.classList.add("animated");
   } else {
     image.classList.remove("animated");
   }
-  // Add and remove class, respectively
 }
 
 function searchAndDisplayImages(imageJson) {

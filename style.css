@@ -42,12 +42,6 @@ h1 img.animated {
     animation-timing-function: linear;
 }
 
-h1 span {
-    position: absolute;
-    left: -999rem;
-    /* It's ugly it does the job, we might want to check with Jakob that our usage of 'position: absolute' is warranted */
-}
-
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -252,10 +246,6 @@ main div #enlarged-image {
     display: flex;
     flex-direction: row;
 }
-
-/* TODO: Give minimize button an icon and place it
-    top left in the enlarged image window */
-main>#enlarged-image-div>#enlarged-image-go-back-button {}
 
 #navigationButtons {
     width: fit-content;
