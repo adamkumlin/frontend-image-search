@@ -266,7 +266,7 @@ function searchAndDisplayImages(imageJson) {
     )
     .then(activateResetButton(true)); // <-- load reset button
 
-  return;
+  return imageJson.totalHits;
 }
 
 // activateResetButton, true = button is active, false = button is removed
@@ -287,16 +287,12 @@ async function submitForm(e) {
   e.preventDefault();
 
   const apiCall = buildApiCallWithUserInput();
-  if (apiCall) {
-    const imageJsonNewSearch = await getJsonFromApi(apiCall).then((response) =>
-      searchAndDisplayImages(response)
-    );
 
-    // a second api call here is ugly and probably bad practice
-    // but i can not access totalHits otherwise
-    const imageJsonTotalHits = await getJsonFromApi(apiCall).then(
-      (response) => response.totalHits
-    );
+  let imageJsonTotalHits;
+  if (apiCall) {
+    const imageJsonNewSearch = await getJsonFromApi(apiCall)
+      .then((response) => searchAndDisplayImages(response))
+      .then((totalHits) => imageJsonTotalHits = totalHits); // get totalHits as returnvalue here 
 
     generatePageButtons(imageJsonTotalHits);
   }
