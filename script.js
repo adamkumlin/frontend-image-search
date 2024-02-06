@@ -100,7 +100,7 @@ async function displayImages(imageJson) {
         // check if imageContainer has the minimize & download button, 
         // if not, add it & the download button 
         if (!imageContainer.querySelector(
-          "back-and-download-button-container")
+          ".back-and-download-button-container")
           ) {
           imageContainer.classList.add("enlarged-image-div");
           image.classList.add("enlarged-image");
@@ -124,11 +124,11 @@ async function displayImages(imageJson) {
           backButton.id = "enlarged-image-go-back-button";
     
           backButton.addEventListener("click", () => {
-            imageContainer.classList.remove(); // <-- does a parameterless classList.remove() remove all class? 
-            image.classList.remove();
+            imageContainer.classList.remove("enlarged-image-div"); 
+            image.classList.remove("enlarged-image");
     
             const backAndDownloadButtonDiv = imageContainer.querySelector(
-              "back-and-download-button-container"
+              ".back-and-download-button-container"
             );
             backAndDownloadButtonDiv.parentNode.removeChild(backAndDownloadButtonDiv);
           });
