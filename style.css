@@ -15,9 +15,14 @@ body {
     flex-direction: column;
     min-height: 100%;
     /* <-- this is for correct footer placement */
-    background: linear-gradient(30deg, rgba(2, 0, 36, 1) 0%, rgba(8, 7, 106, 1) 21%, rgba(9, 9, 121, 1) 37%, rgba(26, 9, 120, 1) 54%, rgba(0, 212, 255, 1) 97%);
+    background: linear-gradient(30deg, rgba(2, 0, 36, 1) 0%, rgba(8, 7, 106, 1) 24%, rgba(9, 9, 121, 1) 46%, rgba(26, 9, 120, 1) 68%, rgba(0, 212, 255, 1) 97%);
     background-attachment: fixed;
     color: white;
+}
+
+header a {
+    text-decoration: none;
+    color: inherit;
 }
 
 h1 {
@@ -75,7 +80,7 @@ select {
     width: 10rem;
 }
 
-input[type="submit"] {
+#submit {
     width: 7rem;
     grid-area: g;
     margin-left: auto;
@@ -85,7 +90,7 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
+#submit:hover {
     transform: scale(1.3);
     border-color: #646cff;
     transition: 1s;
@@ -257,6 +262,8 @@ main div #enlarged-image {
     top left in the enlarged image window */
 main>#enlarged-image-div>#enlarged-image-go-back-button {}
 
+/* What do we do with this? */
+
 #navigationButtons {
     width: fit-content;
     margin-right: auto;
@@ -264,9 +271,6 @@ main>#enlarged-image-div>#enlarged-image-go-back-button {}
     margin-bottom: 2rem;
 }
 
-#pageButtons {
-    display: inline;
-}
 
 #navigationButtons button {
     color: white;
@@ -290,6 +294,10 @@ main>#enlarged-image-div>#enlarged-image-go-back-button {}
 #navigationButtons img {
     width: 100px;
     height: 100px;
+}
+
+#pageButtons {
+    display: inline;
 }
 
 /* previous & next button rules
@@ -322,6 +330,15 @@ footer {
 }
 
 @media screen and (max-width: 1000px) {
+    h1 {
+        font-size: 300%;
+    }
+
+    h1 img {
+        width: 30px;
+        pointer-events: none;
+    }
+
     #form {
         display: flex;
         flex-direction: column;
@@ -348,21 +365,16 @@ footer {
         margin-right: 0;
     }
 
-    h1 {
-        font-size: 300%;
-    }
-
-    h1 img {
-        width: 30px;
-        pointer-events: none;
-    }
-
     #search {
         width: 10rem;
     }
 
     #resetButton {
         left: 3.7rem;
+    }
+
+    #pageButtons {
+        display: none;
     }
 
     main {

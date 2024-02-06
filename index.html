@@ -24,111 +24,114 @@
   <meta name="keywords" content="Pixabay API, Bildsökmotor, Image search, Sök bilder">
   <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
 </head>
-
-<body>
-  <h1>Bildsökm<span>o</span><img src="./assets/shutter-icon.svg" alt="">tor</h1>
+<header>
+  <a href="/index.html">
+    <h1>Bildsökm<span>o</span><img src="./assets/shutter-icon.svg" alt="">tor</h1>
+  </a>
   <!--Alt-text is empty on purpose so that when selecting the heading, the alt-text is not included-->
+</header>
 
-  <form id="form">
-    <div id="searchContainer">
-      <label for="search">Sök<input type="text" id="search" placeholder="Cats" /></label>
-      <input type="reset" id="resetButton" />
-    </div>
-    <label for="color" id="colorContainer">
-      <span>Färg</span>
-      <select id="color">
-        <option value="undefined" >Alla</option>
-        <option value="grayscale">Gråskala</option>
-        <option value="transparent">Transparant</option>
-        <option value="red">Rött</option>
-        <option value="orange">Orange</option>
-        <option value="yellow">Gult</option>
-        <option value="green">Grönt</option>
-        <option value="turquoise">Turkost</option>
-        <option value="blue">Blått</option>
-        <option value="lilac">Lila</option>
-        <option value="pink">Rosa</option>
-        <option value="white">Vitt</option>
-        <option value="gray">Grått</option>
-        <option value="black">Svart</option>
-        <option value="brown">Brunt</option>
-      </select>
-    </label>
-
-    <label for="category" id="categoryContainer">
-      Kategori
-      <select id="category">
-        <option value="undefined">Alla</option>
-        <option value="backgrounds">Bakgrunder</option>
-        <option value="fashion">Mode</option>
-        <option value="nature">Natur</option>
-        <option value="science">Vetenskap</option>
-        <option value="education">Utbildning</option>
-        <option value="feelings">Känslor</option>
-        <option value="health">Hälsa</option>
-        <option value="people">Människor</option>
-        <option value="religion">Religion</option>
-        <option value="places"> Platser</option>
-        <option value="animals">Djur</option>
-        <option value="industry">Industri</option>
-        <option value="computer">Dator</option>
-        <option value="food">Mat</option>
-        <option value="sports">Sport</option>
-        <option value="transportation">Transport</option>
-        <option value="travel">Resor</option>
-        <option value="buildings">Byggnader</option>
-        <option value="business">Affär</option>
-        <option value="music">Musik</option>
-      </select>
-    </label>
-
-    <label for="imageType" id="imageTypeContainer">
-      <span>Bildtyp</span>
-      <select id="imageType">
-        <option value="all">Alla</option>
-        <option value="photos">Foton</option>
-        <option value="illustrations">Illustrationer</option>
-        <option value="vectors">Vektorer</option>
-      </select>
-    </label>
-
-    <label for="resultsPerPage" id="resultsPerPageContainer">
-      <span>Resultat per sida</span>
-      <select id="resultsPerPage">
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-        <option value="200">200</option>
-      </select>
-    </label>
-
-    <label for="order" id="orderContainer">
-      <span>Sortera</span>
-      <select id="order">
-        <option value="popular">Populärast</option>
-        <option value="latest">Senaste</option>
-      </select>
-    </label>
-
-    <input type="submit" value="Sök" id="submit" />
-  </form>
-
-  <main>
-    <!-- [PLACE PICTURE RESULTS HERE] -->
-  </main>
-
-  <div id="navigationButtons">
-    <button type="button" id="previous"><</button>
-    <div id="pageButtons"></div>
-    <button type="button" id="next">></button>
+<form id="form">
+  <div id="searchContainer">
+    <label for="search">Sök<input type="text" id="search" placeholder="Cats" /></label>
+    <input type="reset" id="resetButton" />
   </div>
+  <label for="color" id="colorContainer">
+    <span>Färg</span>
+    <select id="color">
+      <option value="undefined">Alla</option>
+      <option value="grayscale">Gråskala</option>
+      <option value="transparent">Transparant</option>
+      <option value="red">Rött</option>
+      <option value="orange">Orange</option>
+      <option value="yellow">Gult</option>
+      <option value="green">Grönt</option>
+      <option value="turquoise">Turkost</option>
+      <option value="blue">Blått</option>
+      <option value="lilac">Lila</option>
+      <option value="pink">Rosa</option>
+      <option value="white">Vitt</option>
+      <option value="gray">Grått</option>
+      <option value="black">Svart</option>
+      <option value="brown">Brunt</option>
+    </select>
+  </label>
 
-  <footer>
-    <p>Made in 2024 by Simon Sörqvist & Adam Kumlin</p>
-  </footer>
+  <label for="category" id="categoryContainer">
+    Kategori
+    <select id="category">
+      <option value="undefined">Alla</option>
+      <option value="backgrounds">Bakgrunder</option>
+      <option value="fashion">Mode</option>
+      <option value="nature">Natur</option>
+      <option value="science">Vetenskap</option>
+      <option value="education">Utbildning</option>
+      <option value="feelings">Känslor</option>
+      <option value="health">Hälsa</option>
+      <option value="people">Människor</option>
+      <option value="religion">Religion</option>
+      <option value="places"> Platser</option>
+      <option value="animals">Djur</option>
+      <option value="industry">Industri</option>
+      <option value="computer">Dator</option>
+      <option value="food">Mat</option>
+      <option value="sports">Sport</option>
+      <option value="transportation">Transport</option>
+      <option value="travel">Resor</option>
+      <option value="buildings">Byggnader</option>
+      <option value="business">Affär</option>
+      <option value="music">Musik</option>
+    </select>
+  </label>
 
-  <script src="script.js"></script> <!-- script loads in here =====================-->
+  <label for="imageType" id="imageTypeContainer">
+    <span>Bildtyp</span>
+    <select id="imageType">
+      <option value="all">Alla</option>
+      <option value="photos">Foton</option>
+      <option value="illustrations">Illustrationer</option>
+      <option value="vectors">Vektorer</option>
+    </select>
+  </label>
+
+  <label for="resultsPerPage" id="resultsPerPageContainer">
+    <span>Resultat per sida</span>
+    <select id="resultsPerPage">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+    </select>
+  </label>
+
+  <label for="order" id="orderContainer">
+    <span>Sortera</span>
+    <select id="order">
+      <option value="popular">Populärast</option>
+      <option value="latest">Senaste</option>
+    </select>
+  </label>
+
+  <input type="submit" value="Sök" id="submit" />
+</form>
+
+<main>
+  <!-- [PLACE PICTURE RESULTS HERE] -->
+</main>
+
+<div id="navigationButtons">
+  <button type="button" id="previous">
+    << /button>
+      <div id="pageButtons"></div>
+      <button type="button" id="next">></button>
+</div>
+
+<footer>
+  <p>Made in 2024 by Simon Sörqvist & Adam Kumlin</p>
+</footer>
+
+<script src="script.js"></script> <!-- script loads in here =====================-->
 </body>
 
 </html>
