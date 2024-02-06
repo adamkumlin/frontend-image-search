@@ -1,6 +1,5 @@
 // api key
 const apikey = "42111173-a877c127734af95d5350e4bd2";
-let middlePageButton = 4; // <-- 4 being the default value
 
 // build query, return value is meant to be passed as parameter to apiCall()
 function buildQuery(
@@ -77,7 +76,6 @@ async function displayImages(imageJson) {
   if (imageJson === undefined) {
     return;
   }
-  generatePageButtons(imageJson.totalHits);
   const main = document.querySelector("body main");
   imageJson.hits.forEach((hit) => {
     let imageContainer = document.createElement("div");
@@ -300,113 +298,59 @@ async function submitForm(e) {
       (response) => response.totalHits
     );
 
-    const pageQuery = "&page=";
-
-    // previous button event
-    // ==================================================
-    const prevButton = document.getElementById("previous");
-    if (middlePageButton === 4) {
-      prevButton.classList.add("grayed-out-button");
-    }
-
-    // variable needed to check if next button should be visible
-    const resultsPerPage = document.getElementById("resultsPerPage").value;
-
-    prevButton.onclick = async () => {
-      if (middlePageButton > 4) {
-        middlePageButton = middlePageButton - 1;
-        const newApiCall = apiCall + pageQuery + middlePageButton;
-        await getJsonFromApi(newApiCall).then((response) =>
-          searchAndDisplayImages(response)
-        );
-
-        // disable previous button again if we are on page 1
-        if (middlePageButton === 4) {
-          prevButton.classList.remove("visible-button");
-          prevButton.classList.add("grayed-out-button");
-        }
-        // enable next button again after pressing previous
-        // button on last page
-        if (
-          imageJsonTotalHits - resultsPerPage * middlePageButton >
-          resultsPerPage
-        ) {
-          nextButton.classList.remove("grayed-out-button");
-          nextButton.classList.add("visible-button");
-        }
-      }
-    };
-    // ==================================================
-
-    // next button event
-    // ==================================================
-    const nextButton = document.getElementById("next");
-    if (
-      imageJsonTotalHits - resultsPerPage * middlePageButton >
-      resultsPerPage
-    ) {
-      nextButton.classList.add("visible-button");
-    }
-
-    nextButton.onclick = async () => {
-      if (
-        imageJsonTotalHits - resultsPerPage * middlePageButton >
-        resultsPerPage
-      ) {
-        // Display previous button after pressing next
-        prevButton.classList.remove("grayed-out-button");
-        prevButton.classList.add("visible-button");
-
-        middlePageButton = middlePageButton + 1;
-        const newApiCall = apiCall + pageQuery + middlePageButton;
-        await getJsonFromApi(newApiCall).then((response) =>
-          searchAndDisplayImages(response)
-        );
-
-        // disable next button if we are on last page
-        if (
-          !(
-            imageJsonTotalHits - resultsPerPage * middlePageButton >
-            resultsPerPage
-          )
-        ) {
-          nextButton.classList.remove("visible-button");
-          nextButton.classList.add("grayed-out-button");
-        }
-      }
-    };
-    // ==================================================
+    generatePageButtons(imageJsonTotalHits);
   }
 }
 
+const resetButton = document.getElementById("resetButton");
+resetButton.addEventListener("click", () => {
+  activateResetButton(false);
+});
+
+// creates next, previous & numbered page buttons
 function generatePageButtons(totalHits) {
+  const apiCall = buildApiCallWithUserInput();
+  const pageQuery = "&page=";
+  let pageNumber = 1; // <-- 1 being the default value 
+
+  const prevButton = document.getElementById("previous");
+  const nextButton = document.getElementById("next");
+  const pageButtonsContainer = document.getElementById("pageButtons");
+
+  // variable needed to check if next button should be visible
   const resultsPerPage = document.getElementById("resultsPerPage").value;
-  const totalPages = Math.ceil(totalHits / resultsPerPage);
   // Get the total amount of pages, rounded up
+  let totalPages = Math.ceil(totalHits / resultsPerPage);
 
   const hasFewerTotalPagesThanPageButtons = totalPages < 7;
 
-  let firstPageShown;
-  let lastPageShown;
+  let firstNumberedPage = Math.sign(pageNumber - 3) === 0 || Math.sign(pageNumber - 3) === -1 ? 1 : pageNumber - 3;
+  let lastNumberedPage = pageNumber + 3 > totalPages ? totalPages : pageNumber + 3;
 
-  if (hasFewerTotalPagesThanPageButtons) {
-    firstPageShown = 1;
-    lastPageShown = totalPages;
-  } else {
-    firstPageShown = middlePageButton - 3;
-    lastPageShown = middlePageButton + 3;
+  // vv evaluate if needed vv 
+  let middlePageButton = 4;
+
+  /*
+  - if there are less than 7 pages, display the total amount of pages
+  - if there is only 1 page, 
+  */
+  if (totalPages <= 7) {
+    // [draw buttons]
+    lastNumberedPage = totalPages;
+  }
+  else {
+    firstNumberedPage = 1;
   }
 
-  const pageButtonsContainer = document.getElementById("pageButtons");
   pageButtonsContainer.replaceChildren();
 
-  if (firstPageShown != 1) {
+  if (firstNumberedPage != 1) {
     const startOfPageButtonsMarker = document.createElement("span");
     startOfPageButtonsMarker.textContent = "...";
     pageButtonsContainer.append(startOfPageButtonsMarker);
   }
 
-  for (let i = firstPageShown; i <= lastPageShown; i++) {
+  for (let i = firstNumberedPage; i <= lastNumberedPage; i++) {
     const pageButton = document.createElement("button");
     pageButton.textContent = i;
     const apiCall = buildApiCallWithUserInput() + "&page=" + i;
@@ -416,24 +360,94 @@ function generatePageButtons(totalHits) {
       getJsonFromApi(apiCall).then((response) =>
         searchAndDisplayImages(response)
       );
-      if (i === lastPageShown && lastPageShown != totalPages) {
+      // So that the pageNumber doesn't get out of range of available pages
+      if (i === lastNumberedPage && lastNumberedPage != totalPages) {
         middlePageButton++;
-      } else if (i === firstPageShown && firstPageShown != 1) {
+      } else if (i === firstNumberedPage && firstNumberedPage != 1) {
         middlePageButton--;
       }
-      // So that the pageNumber doesn't get out of range of available pages
+
+      // so that previous button is generated
+      // prevButton.classList.add("grayed-out-button");visible-button
+      const prevButton = document.getElementById("previous");
+      if (i === 1) {
+        prevButton.classList.remove("visible-button");
+        prevButton.classList.add("grayed-out-button");
+      }
+      else {
+        prevButton.classList.remove("grayed-out-button");
+        prevButton.classList.add("visible-button");
+      }
     };
     pageButtonsContainer.append(pageButton);
   }
 
-  if (lastPageShown != totalPages) {
+  if (lastNumberedPage != totalPages) {
     const endOfPageButtonsMarker = document.createElement("span");
     endOfPageButtonsMarker.textContent = "...";
     pageButtonsContainer.append(endOfPageButtonsMarker);
   }
-}
 
-const resetButton = document.getElementById("resetButton");
-resetButton.addEventListener("click", () => {
-  activateResetButton(false);
-});
+
+
+
+  // ===============================================================
+
+  prevButton.onclick = async () => {
+    if (pageNumber > 1) {
+      pageNumber = pageNumber - 1;
+
+      const newApiCall = apiCall + pageQuery + pageNumber;
+      await getJsonFromApi(newApiCall).then((response) =>
+        searchAndDisplayImages(response)
+      );
+
+      // disable previous button again if we are on page 1
+      if (pageNumber === 1) {
+        prevButton.classList.remove("visible-button");
+        prevButton.classList.add("grayed-out-button");
+      }
+      // enable next button again after pressing previous
+      // button on last page
+      if ((totalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
+        nextButton.classList.remove("grayed-out-button");
+        nextButton.classList.add("visible-button");
+      }
+    }
+  };
+
+  // adds nextbutton if not on last page
+  if (totalPages != pageNumber) {
+    nextButton.classList.add("visible-button");
+  }
+
+  nextButton.onclick = () => {
+    nextButtonEvent();
+  };
+
+  async function nextButtonEvent(pageNum) {
+    if (pageNum) {
+      pageNumber = pageNum;
+    }
+    if (pageNumber < totalPages) {
+      // Display previous button after pressing next
+      prevButton.classList.remove("grayed-out-button");
+      prevButton.classList.add("visible-button");
+
+      if (!pageNum) {
+        pageNumber = pageNumber + 1;
+      }
+      
+      const newApiCall = apiCall + pageQuery + pageNumber;
+      await getJsonFromApi(newApiCall).then((response) =>
+        searchAndDisplayImages(response)
+      );
+
+      // disable next button if we are on last page
+      if (pageNumber === totalPages) {
+        nextButton.classList.remove("visible-button");
+        nextButton.classList.add("grayed-out-button");
+      }
+    }
+  }
+}
