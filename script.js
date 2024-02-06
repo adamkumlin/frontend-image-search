@@ -327,7 +327,10 @@ async function submitForm(e) {
         }
         // enable next button again after pressing previous
         // button on last page
-        if (imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage) {
+        if (
+          imageJsonTotalHits - resultsPerPage * middlePageButton >
+          resultsPerPage
+        ) {
           nextButton.classList.remove("grayed-out-button");
           nextButton.classList.add("visible-button");
         }
@@ -338,12 +341,18 @@ async function submitForm(e) {
     // next button event
     // ==================================================
     const nextButton = document.getElementById("next");
-    if (imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage) {
+    if (
+      imageJsonTotalHits - resultsPerPage * middlePageButton >
+      resultsPerPage
+    ) {
       nextButton.classList.add("visible-button");
     }
 
     nextButton.onclick = async () => {
-      if (imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage) {
+      if (
+        imageJsonTotalHits - resultsPerPage * middlePageButton >
+        resultsPerPage
+      ) {
         // Display previous button after pressing next
         prevButton.classList.remove("grayed-out-button");
         prevButton.classList.add("visible-button");
@@ -356,7 +365,10 @@ async function submitForm(e) {
 
         // disable next button if we are on last page
         if (
-          !(imageJsonTotalHits - resultsPerPage * middlePageButton > resultsPerPage)
+          !(
+            imageJsonTotalHits - resultsPerPage * middlePageButton >
+            resultsPerPage
+          )
         ) {
           nextButton.classList.remove("visible-button");
           nextButton.classList.add("grayed-out-button");
@@ -372,11 +384,17 @@ function generatePageButtons(totalHits) {
   const totalPages = Math.ceil(totalHits / resultsPerPage);
   // Get the total amount of pages, rounded up
 
-  let firstPageShown = middlePageButton - 3;
-  let lastPageShown = middlePageButton + 3;
+  const hasFewerTotalPagesThanPageButtons = totalPages < 7;
 
-  if (lastPageShown >= totalPages) {
-    return;
+  let firstPageShown;
+  let lastPageShown;
+
+  if (hasFewerTotalPagesThanPageButtons) {
+    firstPageShown = 1;
+    lastPageShown = totalPages;
+  } else {
+    firstPageShown = middlePageButton - 3;
+    lastPageShown = middlePageButton + 3;
   }
 
   const pageButtonsContainer = document.getElementById("pageButtons");
