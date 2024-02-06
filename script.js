@@ -1,6 +1,6 @@
 // api key
 const apikey = "42111173-a877c127734af95d5350e4bd2";
-let middlePageButton = 4; // <-- 1 being the default value
+let middlePageButton = 4; // <-- 4 being the default value
 
 // build query, return value is meant to be passed as parameter to apiCall()
 function buildQuery(
