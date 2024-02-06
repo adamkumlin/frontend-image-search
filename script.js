@@ -303,21 +303,6 @@ resetButton.addEventListener("click", () => {
   activateResetButton(false);
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // creates next, previous & numbered page buttons
 function generatePageButtons(totalHits) {
   const apiCall = buildApiCallWithUserInput();
@@ -333,171 +318,109 @@ function generatePageButtons(totalHits) {
   // Get the total amount of pages, rounded up
   let totalPages = Math.ceil(totalHits / resultsPerPage);
 
-  const hasFewerTotalPagesThanPageButtons = totalPages < 7;
-
-  let firstNumberedPage = Math.sign(pageNumber - 3) === 0 || Math.sign(pageNumber - 3) === -1 ? 1 : pageNumber - 3;
-  let lastNumberedPage = pageNumber + 3 > totalPages ? totalPages : pageNumber + 3;
-
-  // vv evaluate if needed vv 
-  let middlePageButton = 4;
-
-
-
-
-
-
-
-
-
-
-  /*
-  - if there are less than 7 pages, display the total amount of pages
-  - if there is only 1 page, 
-  */
-  if (totalPages <= 7) {
-    // [draw buttons]
-    lastNumberedPage = totalPages;
-  }
-  else {
-    firstNumberedPage = 1;
-  }
-
-  pageButtonsContainer.replaceChildren();
-
-
-  // vv this loop is important and re-usable <3
-  for (let i = pageNumber; i <= lastNumberedPage; i++) {
-    const pageButton = document.createElement("button");
-    pageButton.textContent = i;
-    // Create new API-call for each button
-    const apiCall = buildApiCallWithUserInput() + "&page=" + i;
-    
-    pageButton.onclick = () => {
-      getJsonFromApi(apiCall).then((response) =>
-      searchAndDisplayImages(response)
-      );
-      // So that the pageNumber doesn't get out of range of available pages
-      if (i === lastNumberedPage && lastNumberedPage != totalPages) {
-        pageNumber++;
-      } else if (i === firstNumberedPage && firstNumberedPage != 1) {
-        middlePageButton--;
-      }
-      
-      // // so that previous button is generated
-      // // prevButton.classList.add("grayed-out-button");visible-button
-      // const prevButton = document.getElementById("previous");
-      // if (i === 1) {
-      //   prevButton.classList.remove("visible-button");
-      //   prevButton.classList.add("grayed-out-button");
-      // }
-      // else {
-      //   prevButton.classList.remove("grayed-out-button");
-      //   prevButton.classList.add("visible-button");
-      // }
-    };
-    pageButtonsContainer.append(pageButton);
-  }
-
-  
-  
-  
-
-
-  
-  
-  // =====================================================
-
-  // add ... in front of numbered pages 
-  // true if current page - 3 is greater than 1 
-  // should be added before nr pages generated
-  if ((pageNumber - 3) > 1) {
-    const startOfPageButtonsMarker = document.createElement("span");
-    startOfPageButtonsMarker.textContent = "...";
-    pageButtonsContainer.append(startOfPageButtonsMarker);
-  }
-
-  // add ... at the end of the numbered pages
-  // true if we are on page 4 or higher and last page is more than 3 pages away
-  // true if we are on first page and last page is more than 6 pages away
-  // should be added after nr pages generated
-  if (
-    (pageNumber >= 4 && (pageNumber + 3) < totalPages)
-    || ((pageNumber + 6) < totalPages)) 
-  {
-    const endOfPageButtonsMarker = document.createElement("span");
-    endOfPageButtonsMarker.textContent = "...";
-    pageButtonsContainer.append(endOfPageButtonsMarker);
-  }
-
-
-
-
-  // ===============================================================
-
-  prevButton.onclick = () => {
-    prevButtonEvent();
-  };
-
-  // adds nextbutton if not on last page
+  // adds nextbutton if not on last page, useful if search result only has one page
   if (totalPages != pageNumber) {
     nextButton.classList.add("visible-button");
   }
 
-  nextButton.onclick = () => {
-    nextButtonEvent();
+  generateNumberedButtons(pageNumber);
+
+  prevButton.onclick = () => {
+    if (pageNumber > 1) {
+      pageNumber = pageNumber - 1;
+    }
+    showButtonEvent(pageNumber);
+    generateNumberedButtons(pageNumber);
   };
 
-  async function nextButtonEvent(pageNum) {
-    if (pageNum) {
-      pageNumber = pageNum;
-    }
+  nextButton.onclick = () => {
     if (pageNumber < totalPages) {
-      // Display previous button after pressing next
+      pageNumber = pageNumber + 1;
+    }
+    showButtonEvent(pageNumber);
+    generateNumberedButtons(pageNumber);
+  };
+
+  async function showButtonEvent(pageNum) {
+    pageNumber = pageNum;
+
+    const newApiCall = apiCall + pageQuery + pageNum;
+    await getJsonFromApi(newApiCall).then((response) =>
+      searchAndDisplayImages(response)
+    );
+
+    // disable previous button if we are on page 1
+    if (pageNum === 1) {
+      prevButton.classList.remove("visible-button");
+      prevButton.classList.add("grayed-out-button");
+    }
+    else if (pageNum > 1) { // Display previous button if not on first page
       prevButton.classList.remove("grayed-out-button");
       prevButton.classList.add("visible-button");
+    }
 
-      if (!pageNum) {
-        pageNumber = pageNumber + 1;
-      }
-      
-      const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
-
-      // disable next button if we are on last page
-      if (pageNumber === totalPages) {
-        nextButton.classList.remove("visible-button");
-        nextButton.classList.add("grayed-out-button");
-      }
+    // enable next button if not on last page
+    // disable next button if we are on last page
+    if (pageNum < totalPages) {
+      nextButton.classList.remove("grayed-out-button");
+      nextButton.classList.add("visible-button");
+    }
+    else {
+      nextButton.classList.remove("visible-button");
+      nextButton.classList.add("grayed-out-button");
     }
   }
 
-  async function prevButtonEvent(pageNum) {
-    if (pageNum) {
-      pageNumber = pageNum;
+  function generateNumberedButtons(pageNum) {
+    pageButtonsContainer.replaceChildren();
+
+    // add ... in front of numbered pages 
+    // true if current page - 3 is greater than 1 
+    if ((pageNum - 3) > 1 && !((pageNum - 3) === 1)) {
+      const startOfPageButtonsMarker = document.createElement("span");
+      startOfPageButtonsMarker.textContent = "...";
+      pageButtonsContainer.append(startOfPageButtonsMarker);
     }
-    if (pageNumber > 1) {
-      if (!pageNum) {
-        pageNumber = pageNumber - 1;
+
+    // loop adding the numbered buttons
+    for (let i = -3; i < 4; i++) {
+      let iterationPageNumber;
+      // check if i is 0 or negative number which it will be 
+      // for the first 4 iterations 
+      if (i < 1) {
+        iterationPageNumber = pageNum - ((-1) * i);
+      }
+      else { // if i is a positive number
+        iterationPageNumber = pageNum + i;
       }
 
-      const newApiCall = apiCall + pageQuery + pageNumber;
-      await getJsonFromApi(newApiCall).then((response) =>
-        searchAndDisplayImages(response)
-      );
+      if (iterationPageNumber > 0 && iterationPageNumber <= totalPages) {
+        const pageButton = document.createElement("button");
 
-      // disable previous button again if we are on page 1
-      if (pageNumber === 1) {
-        prevButton.classList.remove("visible-button");
-        prevButton.classList.add("grayed-out-button");
+        pageButton.textContent = iterationPageNumber;
+
+        pageButton.onclick = () => {
+          // this is probably bad & could result in recursion
+          // then again it might not since this is a nested function
+          // and the container is declared outside the function
+          // and the container is cleared on each function call
+          generateNumberedButtons(iterationPageNumber);
+          showButtonEvent(iterationPageNumber);
+        };
+
+        pageButtonsContainer.append(pageButton);
       }
-      // enable next button again after pressing previous
-      // button on last page
-      if ((totalHits - (resultsPerPage * pageNumber)) > resultsPerPage) {
-        nextButton.classList.remove("grayed-out-button");
-        nextButton.classList.add("visible-button");
-      }
+    }
+
+    // add ... at the end of the numbered pages
+    // true if we are on page 4 or higher and last page is more than 3 pages away
+    // true if we are on first page and last page is more than 6 pages away
+    if (
+      (pageNum >= 4 && (pageNum + 3) < totalPages)
+      || ((pageNum + 6) < totalPages)) {
+      const endOfPageButtonsMarker = document.createElement("span");
+      endOfPageButtonsMarker.textContent = "...";
+      pageButtonsContainer.append(endOfPageButtonsMarker);
     }
   }
 }
