@@ -194,7 +194,14 @@ main>div {
     place-items: center;
     color: black;
     border-radius: 20px;
-    width: fit-content;
+    width: 300px;
+    text-align: center;
+}
+
+/* Only applies to divs who do not have an element with id "enlarged image" as a child */
+main>div:not(:has(#enlarged-image)):hover {
+    transform: scale(1.05) rotate(1deg);
+    transition: 300ms;
 }
 
 main div img:not(#enlarged-image) {
@@ -203,6 +210,10 @@ main div img:not(#enlarged-image) {
     object-fit: cover;
     border-radius: 20px 20px 0 0;
     margin-bottom: 1rem;
+}
+
+main div button {
+    margin: 1rem;
 }
 
 main div button:nth-of-type(2) {
@@ -231,9 +242,9 @@ main>#enlarged-image-div {
 
 main div #enlarged-image {
     object-fit: cover;
-    border-radius: 20px;
+    border-radius: 20px 20px 0 0;
     margin-bottom: 1rem;
-    max-width: 80vw;    
+    max-width: 80vw;
 }
 
 /* vvv this needs to be changed if we change to icons for the buttons */
@@ -307,6 +318,7 @@ footer {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 8px;
+    font-family: Poppins;
 }
 
 @media screen and (max-width: 1000px) {
