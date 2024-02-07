@@ -292,7 +292,7 @@ async function submitForm(e) {
   if (apiCall) {
     const imageJsonNewSearch = await getJsonFromApi(apiCall)
       .then((response) => searchAndDisplayImages(response))
-      .then((totalHits) => imageJsonTotalHits = totalHits); // get totalHits as returnvalue here 
+      .then((totalHits) => (imageJsonTotalHits = totalHits)); // get totalHits as returnvalue here
 
     generatePageButtons(imageJsonTotalHits);
   }
@@ -307,7 +307,7 @@ resetButton.addEventListener("click", () => {
 function generatePageButtons(totalHits) {
   const apiCall = buildApiCallWithUserInput();
   const pageQuery = "&page=";
-  let pageNumber = 1; // <-- 1 being the default value 
+  let pageNumber = 1; // <-- 1 being the default value
 
   const prevButton = document.getElementById("previous");
   const nextButton = document.getElementById("next");
@@ -353,8 +353,8 @@ function generatePageButtons(totalHits) {
     if (pageNum === 1) {
       prevButton.classList.remove("visible-button");
       prevButton.classList.add("grayed-out-button");
-    }
-    else if (pageNum > 1) { // Display previous button if not on first page
+    } else if (pageNum > 1) {
+      // Display previous button if not on first page
       prevButton.classList.remove("grayed-out-button");
       prevButton.classList.add("visible-button");
     }
@@ -364,8 +364,7 @@ function generatePageButtons(totalHits) {
     if (pageNum < totalPages) {
       nextButton.classList.remove("grayed-out-button");
       nextButton.classList.add("visible-button");
-    }
-    else {
+    } else {
       nextButton.classList.remove("visible-button");
       nextButton.classList.add("grayed-out-button");
     }
@@ -374,9 +373,9 @@ function generatePageButtons(totalHits) {
   function generateNumberedButtons(pageNum) {
     pageButtonsContainer.replaceChildren();
 
-    // add ... in front of numbered pages 
-    // true if current page - 3 is greater than 1 
-    if ((pageNum - 3) > 1 && !((pageNum - 3) === 1)) {
+    // add ... in front of numbered pages
+    // true if current page - 3 is greater than 1
+    if (pageNum - 3 > 1 && !(pageNum - 3 === 1)) {
       const startOfPageButtonsMarker = document.createElement("span");
       startOfPageButtonsMarker.textContent = "...";
       pageButtonsContainer.append(startOfPageButtonsMarker);
@@ -385,12 +384,12 @@ function generatePageButtons(totalHits) {
     // loop adding the numbered buttons
     for (let i = -3; i < 4; i++) {
       let iterationPageNumber;
-      // check if i is 0 or negative number which it will be 
-      // for the first 4 iterations 
+      // check if i is 0 or negative number which it will be
+      // for the first 4 iterations
       if (i < 1) {
-        iterationPageNumber = pageNum - ((-1) * i);
-      }
-      else { // if i is a positive number
+        iterationPageNumber = pageNum - -1 * i;
+      } else {
+        // if i is a positive number
         iterationPageNumber = pageNum + i;
       }
 
@@ -416,8 +415,9 @@ function generatePageButtons(totalHits) {
     // true if we are on page 4 or higher and last page is more than 3 pages away
     // true if we are on first page and last page is more than 6 pages away
     if (
-      (pageNum >= 4 && (pageNum + 3) < totalPages)
-      || ((pageNum + 6) < totalPages)) {
+      (pageNum >= 4 && pageNum + 3 < totalPages) ||
+      pageNum + 6 < totalPages
+    ) {
       const endOfPageButtonsMarker = document.createElement("span");
       endOfPageButtonsMarker.textContent = "...";
       pageButtonsContainer.append(endOfPageButtonsMarker);
