@@ -107,7 +107,6 @@ async function displayImages(imageJson) {
           backAndDownloadButtonContainer.classList.add("back-and-download-button-container");
     
           const downloadButton = document.createElement("button");
-          downloadButton.textContent = "Ladda ned";
           downloadButton.alt = "Ladda ner vald bild";
           downloadButton.type = "button";
           downloadButton.onclick = () => {
