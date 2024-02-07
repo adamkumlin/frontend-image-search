@@ -204,12 +204,12 @@ main>div {
 }
 
 /* Only applies to divs who do not have an element with id "enlarged image" as a child */
-main>div:not(:has(#enlarged-image)):hover {
+main>div:not(:has(.enlarged-image)):hover {
     transform: scale(1.05) rotate(1deg);
     transition: 300ms;
 }
 
-main div img:not(#enlarged-image) {
+main div img:not(.enlarged-image) {
     width: 300px;
     height: 300px;
     object-fit: cover;
@@ -238,14 +238,14 @@ main div p:last-of-type {
 }
 
 /* #enlarged-image is the "full-size" version */
-main>#enlarged-image-div {
+main>.enlarged-image-div {
     height: 100%;
     width: fit-content;
     margin-left: 100%;
     margin-right: 100%;
 }
 
-main div #enlarged-image {
+main div .enlarged-image {
     object-fit: cover;
     border-radius: 20px 20px 0 0;
     margin-bottom: 1rem;
@@ -253,7 +253,7 @@ main div #enlarged-image {
 }
 
 /* vvv this needs to be changed if we change to icons for the buttons */
-#back-and-download-button-container {
+.back-and-download-button-container {
     display: flex;
     flex-direction: row;
 }
