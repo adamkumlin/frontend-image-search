@@ -258,12 +258,6 @@ main div #enlarged-image {
     flex-direction: row;
 }
 
-/* TODO: Give minimize button an icon and place it
-    top left in the enlarged image window */
-main>#enlarged-image-div>#enlarged-image-go-back-button {}
-
-/* What do we do with this? */
-
 #navigationButtons {
     width: fit-content;
     margin-right: auto;
@@ -297,7 +291,7 @@ main>#enlarged-image-div>#enlarged-image-go-back-button {}
 }
 
 #pageButtons {
-    display: inline;
+    display: inline-block;
 }
 
 /* previous & next button rules
