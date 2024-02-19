@@ -317,6 +317,11 @@ function generatePageButtons(totalHits) {
   if (totalPages != pageNumber) {
     nextButton.classList.add("visible-button");
   }
+  // disable previous button if we are on page 1
+  if (pageNumber === 1) {
+    prevButton.classList.remove("visible-button");
+    prevButton.classList.add("grayed-out-button");
+  }
 
   generateNumberedButtons(pageNumber);
 
